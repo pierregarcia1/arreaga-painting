@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arreaga Painting · Board</title>
+<style>
+*{box-sizing:border-box;margin:0}
+/* slim ink scrollbars to match the site */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#141414;border:2px solid transparent;border-radius:99px;background-clip:padding-box;min-height:48px}
+::-webkit-scrollbar-thumb:hover{background:#bb1736;background-clip:padding-box}
+::-webkit-scrollbar-corner{background:transparent}
+@supports not selector(::-webkit-scrollbar){html{scrollbar-width:thin;scrollbar-color:#141414 transparent}}
+html,body{height:100%}
+body{display:flex;flex-direction:column;font:13px/1.4 Inter,system-ui,sans-serif;background:#e8e8e6;color:#141414;overflow:hidden}
+header{min-height:56px;flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 14px;white-space:nowrap;background:#fff;border-bottom:1px solid #d4d4d0;z-index:50}
+header b{font-size:14px}
+.seg{display:flex;border:1px solid #d4d4d0;border-radius:6px;overflow:hidden}
+button{font:inherit;cursor:pointer}
+.seg button{border:0;background:#fff;padding:7px 11px}
+.seg button+button{border-left:1px solid #d4d4d0}
+.seg button.on{background:#141414;color:#fff}
+.tool{border:1px solid #d4d4d0;background:#fff;border-radius:6px;padding:7px 10px;max-width:170px;text-overflow:ellipsis}
+select.tool{width:130px}
+@media(max-width:1100px){#info{display:none}}
+header label{display:flex;gap:6px;align-items:center;color:#666}
+header .sp{flex:1}
+#info{color:#666;font-variant-numeric:tabular-nums}
+.zoom button{min-width:34px;padding:7px 9px;background:#fff}
+#zval{min-width:56px;font-variant-numeric:tabular-nums}
+#board.pan{cursor:grabbing}
+#board.canpan{cursor:grab}
+
+#board{flex:1;overflow:auto;position:relative;background:radial-gradient(#c4c4c0 1px,transparent 1px) 0 0/20px 20px}
+#sizer{position:absolute;left:0;top:0;pointer-events:none}
+#world{position:absolute;left:0;top:0;transform-origin:0 0}
+
+.dev{position:absolute;z-index:2}
+.dev .frame{position:absolute;inset:0;background:#fff;box-shadow:0 8px 30px #0002;border-radius:calc(var(--inv)*3px);overflow:hidden}
+iframe{display:block;border:0;width:100%;height:100%}
+.lbl{position:absolute;left:0;right:0;bottom:100%;padding-bottom:calc(var(--inv)*6px);display:flex;justify-content:space-between;align-items:center;font-size:calc(var(--inv)*12px);font-weight:600;color:#666;white-space:nowrap}
+.lbl button{border:0;background:none;color:#666;font-size:calc(var(--inv)*14px);padding:0 calc(var(--inv)*4px)}
+.lbl button:hover{color:#bb1736}
+.lbl .szbtn{font-size:calc(var(--inv)*12px);font-weight:400;font-variant-numeric:tabular-nums;border-radius:calc(var(--inv)*4px);padding:calc(var(--inv)*2px) calc(var(--inv)*6px);cursor:pointer}
+.lbl .szbtn:hover,.lbl .szbtn.open{background:#0000000d;color:#141414}
+#menu{position:fixed;z-index:400;display:none;min-width:240px;max-height:70vh;overflow:auto;background:#fff;border:1px solid #d4d4d0;border-radius:8px;box-shadow:0 12px 32px #0003;padding:4px}
+#menu.show{display:block}
+#menu button{display:flex;width:100%;justify-content:space-between;gap:20px;border:0;background:none;padding:7px 10px 7px 22px;border-radius:5px;text-align:left;font:inherit;color:#141414;position:relative}
+#menu button:hover{background:#f0f0ee}
+#menu button.cur{font-weight:600}
+#menu button.cur:before{content:"\2713";position:absolute;left:7px;color:#bb1736}
+#menu small{color:#888;font-variant-numeric:tabular-nums}
+.dev.focus .lbl>span:first-child{color:#bb1736}
+.lbl .sz{font-weight:400;font-variant-numeric:tabular-nums}
+.lbl .r{display:flex;gap:calc(var(--inv)*8px);align-items:center}
+
+/* resize handles: edges + corners, sit just outside the frame */
+.h{position:absolute;z-index:3;--t:calc(var(--inv)*16px);--c:#bb1736}
+.h::before,.h::after{content:"";position:absolute;opacity:0;transition:opacity .12s,transform .12s;pointer-events:none}
+.h:hover::before,.h:hover::after,.h.on::before,.h.on::after{opacity:1}
+.h.n{left:0;right:0;top:calc(var(--t)*-1);height:var(--t);cursor:ns-resize}
+.h.s{left:0;right:0;bottom:calc(var(--t)*-1);height:var(--t);cursor:ns-resize}
+.h.e{top:0;bottom:0;right:calc(var(--t)*-1);width:var(--t);cursor:ew-resize}
+.h.w{top:0;bottom:0;left:calc(var(--t)*-1);width:var(--t);cursor:ew-resize}
+.h.ne,.h.nw,.h.se,.h.sw{width:var(--t);height:var(--t)}
+.h.ne{top:calc(var(--t)*-1);right:calc(var(--t)*-1);cursor:nesw-resize}
+.h.sw{bottom:calc(var(--t)*-1);left:calc(var(--t)*-1);cursor:nesw-resize}
+.h.nw{top:calc(var(--t)*-1);left:calc(var(--t)*-1);cursor:nwse-resize}
+.h.se{bottom:calc(var(--t)*-1);right:calc(var(--t)*-1);cursor:nwse-resize}
+/* edge: accent line along the frame edge + centered grip pill */
+.h.e::before,.h.w::before,.h.n::before,.h.s::before{background:var(--c);border-radius:99px}
+.h.e::before{left:0;top:0;bottom:0;width:calc(var(--inv)*2px)}
+.h.w::before{right:0;top:0;bottom:0;width:calc(var(--inv)*2px)}
+.h.n::before{bottom:0;left:0;right:0;height:calc(var(--inv)*2px)}
+.h.s::before{top:0;left:0;right:0;height:calc(var(--inv)*2px)}
+.h.e::after,.h.w::after,.h.n::after,.h.s::after{left:50%;top:50%;transform:translate(-50%,-50%);background:var(--c);border-radius:99px;box-shadow:0 0 0 calc(var(--inv)*2px) #fff,0 calc(var(--inv)*2px) calc(var(--inv)*6px) #0003}
+.h.e::after,.h.w::after{width:calc(var(--inv)*6px);height:calc(var(--inv)*44px)}
+.h.n::after,.h.s::after{height:calc(var(--inv)*6px);width:calc(var(--inv)*44px)}
+.h.e:hover::after,.h.w:hover::after,.h.n:hover::after,.h.s:hover::after{transform:translate(-50%,-50%) scale(1.15)}
+/* corner: ring handle */
+.h.ne::after,.h.nw::after,.h.se::after,.h.sw::after{left:50%;top:50%;width:calc(var(--inv)*12px);height:calc(var(--inv)*12px);transform:translate(-50%,-50%);border-radius:50%;background:#fff;border:calc(var(--inv)*2.5px) solid var(--c);box-shadow:0 calc(var(--inv)*2px) calc(var(--inv)*6px) #0003}
+.h.ne:hover::after,.h.nw:hover::after,.h.se:hover::after,.h.sw:hover::after{transform:translate(-50%,-50%) scale(1.25)}
+
+/* dragging: dim everything else, show guides */
+#dim{position:absolute;left:-20000px;top:-20000px;width:40000px;height:40000px;background:#e8e8e6cc;z-index:4;display:none}
+#guides{position:absolute;left:0;top:0;z-index:6;pointer-events:none}
+.gr{position:absolute;border:calc(var(--inv)*1.5px) dotted #8a8a86;color:#6f6f6b;font-size:calc(var(--inv)*11px);border-radius:calc(var(--inv)*2px)}
+.gr span{position:absolute;white-space:nowrap;padding:calc(var(--inv)*2px) calc(var(--inv)*5px);background:#e8e8e6;border-radius:calc(var(--inv)*3px)}
+.gr span.e{right:calc(var(--inv)*6px)}.gr span.w{left:calc(var(--inv)*6px)}
+.gr span.s{bottom:calc(var(--inv)*6px)}.gr span.n{top:calc(var(--inv)*6px)}
+.gr.snap{border:calc(var(--inv)*2px) solid #bb1736;background:#bb17360f;color:#fff}
+.gr.snap span{background:#bb1736;font-weight:600}
+body.dragging #dim{display:block}
+body.dragging .dev.active{z-index:5}
+body.dragging iframe{pointer-events:none}
+body.dragging .dev:not(.active) .h{display:none}
+.hide{display:none!important}
+
+/* design review panel */
+#panel{position:relative;flex:none;height:min(340px,38vh);background:#fff;border-top:1px solid #d4d4d0;display:flex;flex-direction:column;z-index:50}
+#panel.collapsed{height:auto!important}
+#pgrip{position:absolute;left:0;right:0;top:-5px;height:10px;cursor:ns-resize;z-index:60}
+#pgrip:after{content:"";position:absolute;left:50%;top:3px;width:44px;height:4px;margin-left:-22px;border-radius:4px;background:#b8b8b4}
+#pgrip:hover:after{background:#bb1736}
+#panel.collapsed #pbody{display:none}
+.phead{flex:none;display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid #ececea;flex-wrap:wrap}
+.phead b{font-size:13px}
+.phead .cnt{color:#666}
+.phead .sp{flex:1}
+.mini{border:1px solid #d4d4d0;background:#fff;border-radius:6px;padding:4px 9px;font-size:12px}
+.mini:hover{background:#f4f4f2}
+#pbody{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:16px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.sum div{background:#f7f7f5;border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.5;color:#444}
+.sum b{display:block;color:#141414;margin-bottom:2px}
+.tier{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#666;margin-bottom:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.card{border:1px solid #d4d4d0;border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:#fff;transition:border-color .12s,box-shadow .12s}
+.card.on{border-color:#bb1736;box-shadow:0 0 0 1px #bb1736 inset}
+.card .top{display:flex;gap:10px;align-items:flex-start}
+.card h5{font-size:13px;line-height:1.3;flex:1}
+.card .pr{font-size:11px;color:#888}
+.card p{font-size:12px;line-height:1.45;color:#444}
+.card p i{font-style:normal;font-weight:600;color:#141414}
+.act{display:flex;align-items:center;gap:8px;flex:none}
+.eye{flex:none;width:28px;height:28px;display:grid;place-items:center;border:0;border-radius:50%;background:#f0f0ee;color:#555;cursor:pointer;transition:background .12s,color .12s}
+.eye:hover{background:#bb1736;color:#fff}
+.eye:focus-visible{outline:2px solid #141414;outline-offset:2px}
+.tag{font-size:10px;border-radius:99px;padding:1px 7px;background:#ececea;color:#555;align-self:flex-start}
+.sw{position:relative;flex:none;width:34px;height:20px}
+.sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1}
+.sw span{position:absolute;inset:0;border-radius:99px;background:#c9c9c5;transition:background .15s}
+.sw span:after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px #0004}
+.sw input:checked+span{background:#bb1736}
+.sw input:checked+span:after{transform:translateX(14px)}
+.sw input:focus-visible+span{outline:2px solid #141414;outline-offset:2px}
+body.full #panel{display:none}
+
+/* fullscreen */
+#exit{display:none;position:fixed;top:12px;right:12px;z-index:300;border:0;border-radius:20px;padding:8px 14px;background:#141414;color:#fff;opacity:.35;transition:opacity .15s}
+#exit:hover{opacity:1}
+body.full header,body.full #sizer{display:none}
+body.full #board{background:#e8e8e6}
+body.full #exit{display:block}
+body.full #dim,body.full #guides,body.full .dev:not(.full){display:none}
+.dev.full{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:200;background:#e8e8e6}
+.dev.full .lbl,.dev.full .h{display:none}
+.dev.full .frame{box-shadow:none;border-radius:0}
+.dev.full[data-k=mobile] .frame{left:50%;right:auto;width:min(var(--fw),100vw);transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<header>
+  <b>Arreaga Painting</b>
+  <div class="seg" id="mode">
+    <button data-m="desktop" class="on">Desktop</button>
+    <button data-m="mobile">Mobile</button>
+    <button data-m="both">Both</button>
+  </div>
+  <label><input type="checkbox" id="fit" checked> Fit</label>
+  <div class="seg zoom" role="group" aria-label="Zoom frames"><button id="zout" title="Zoom out (Ctrl and -)" aria-label="Zoom out">&minus;</button><button id="zval" title="Reset to 100% (Ctrl and 0)">100%</button><button id="zin" title="Zoom in (Ctrl and +)" aria-label="Zoom in">+</button></div>
+  <select class="tool" id="preset" title="Apply a standard size to the highlighted frame">
+    <option value="">Size…</option>
+  </select>
+  <button class="tool" id="reset">Reset sizes</button>
+  <div class="sp"></div>
+  <span id="info"></span>
+  <button class="tool" id="fs" title="Fullscreen" aria-label="Fullscreen"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M10 2h4v4M6 14H2v-4M14 2l-5 5M2 14l5-5"/></svg></button>
+</header>
+<div id="menu"></div>
+<div id="board"><div id="sizer"></div><div id="world"><div id="dim"></div><div id="guides"></div></div></div>
+<section id="panel">
+  <div id="pgrip" title="Drag to resize"></div>
+  <div class="phead">
+    <b>Design review</b><span class="cnt" id="pcnt"></span>
+    <span class="sp"></span>
+    <button class="mini" id="pmajor">Apply all major</button>
+    <button class="mini" id="pall">Apply all</button>
+    <button class="mini" id="pnone">Clear</button>
+    <button class="mini" id="pcol" aria-label="Collapse panel">▾</button>
+  </div>
+  <div id="pbody"></div>
+</section>
+<button id="exit">✕ Exit fullscreen (Esc)</button>
+
+<script>
+const LBL=24, GAP=80, MINH=400, MAXH=2400;
+const PRESETS=[
+  {t:'desktop',n:'Desktop 1920',w:1920,h:1080},{t:'desktop',n:'Desktop 1440',w:1440,h:900},
+  {t:'desktop',n:'Laptop',w:1280,h:800},{t:'desktop',n:'Tablet landscape',w:1024,h:768},
+  {t:'mobile',n:'Surface Duo (spanned)',w:1114,h:720},{t:'mobile',n:'Tablet',w:768,h:1024},
+  {t:'mobile',n:'Surface Duo',w:540,h:720},{t:'mobile',n:'Large phone',w:430,h:932},
+  {t:'mobile',n:'Phone',w:390,h:844},{t:'mobile',n:'Small phone',w:360,h:640}];
+const forType=t=>PRESETS.filter(p=>p.t===t);
+const maps=t=>{const g=key=>{const m=new Map();for(const p of forType(t))m.set(p[key],(m.get(p[key])||[]).concat(p.n));return m};return{W:g('w'),H:g('h')}};
+const defs={
+  desktop:{w:1440,h:900,min:1024,max:2400,minH:600,maxH:2400},   // laptop and up: no phone sizes
+  mobile:{w:390,h:844,min:280,max:1200,minH:480,maxH:1400}};      // phones, tablets, foldables: no laptop sizes
+const D={};
+const board=document.getElementById('board'),world=document.getElementById('world'),
+      sizer=document.getElementById('sizer'),guides=document.getElementById('guides');
+let mode='desktop',focus='desktop',scale=1,tx=0,ty=0,dragging=false,full=null;
+
+for(const k in defs){
+  const d=D[k]={...defs[k],x:0,y:0};
+  const el=d.el=document.createElement('div');el.className='dev';el.dataset.k=k;
+  el.innerHTML=`<div class="lbl"><span>${k[0].toUpperCase()+k.slice(1)}</span><span class="r"><button class="szbtn" title="Change size"><span class="sz"></span> ▾</button><button class="fsb" title="Fullscreen" aria-label="Fullscreen">⤢</button></span></div>
+  <div class="frame"><iframe src="index.html" title="${k}"></iframe></div>
+  ${['n','s','e','w','ne','nw','se','sw'].map(r=>`<div class="h ${r}" data-r="${r}"></div>`).join('')}`;
+  world.append(el);
+  el.querySelector('.fsb').onclick=()=>enterFull(k);
+  el.querySelector('.szbtn').onclick=e=>openMenu(k,e.currentTarget);
+  el.querySelectorAll('.h').forEach(h=>h.onpointerdown=e=>{focus=k;startDrag(e,k,h)});
+  el.querySelector('.lbl').onpointerdown=()=>{focus=k;draw()};
+}
+
+const nameFor=(k,d)=>(forType(k).find(p=>p.w===d.w&&p.h===d.h)||forType(k).find(p=>p.w===d.w))?.n;
+const visible=()=>mode==='both'?['desktop','mobile']:[mode];
+
+function layout(){ // place visible frames side by side
+  let x=0;for(const k of visible()){D[k].x=x;D[k].y=0;x+=D[k].w+GAP}
+}
+function bbox(){
+  const v=visible().map(k=>D[k]);
+  const minX=Math.min(...v.map(d=>d.x)),maxX=Math.max(...v.map(d=>d.x+d.w));
+  const minY=Math.min(...v.map(d=>d.y-LBL)),maxY=Math.max(...v.map(d=>d.y+d.h));
+  return{minX,minY,w:maxX-minX,h:maxY-minY};
+}
+let zoom=1;
+function fit(){
+  if(full)return;
+  const fitOn=document.getElementById('fit').checked;
+  board.style.overflow=fitOn?'hidden':'auto';   // no scrollbars in fit mode, so they can't resize the board and re-trigger fit
+  const b=bbox(),pad=48,bw=board.clientWidth,bh=board.clientHeight;
+  if(fitOn){
+    scale=Math.min(1,(bw-pad*2)/b.w,(bh-pad*2)/b.h);
+    tx=Math.round((bw-b.w*scale)/2-b.minX*scale);ty=Math.round((bh-b.h*scale)/2-b.minY*scale);
+    sizer.style.width=sizer.style.height='0';zoom=scale;   // keep the manual zoom in step with the fitted scale
+  }else{
+    scale=zoom;
+    tx=Math.round(Math.max(pad,(bw-b.w*scale)/2)-b.minX*scale);ty=Math.round(Math.max(pad,(bh-b.h*scale)/2)-b.minY*scale);
+    sizer.style.width=Math.round(b.w*scale+pad*2)+'px';sizer.style.height=Math.round(b.h*scale+pad*2)+'px';
+  }
+  draw();
+}
+function draw(){
+  world.style.transform=full?'none':`translate(${tx}px,${ty}px) scale(${scale})`;
+  world.style.setProperty('--inv',1/scale);
+  for(const k in D){
+    const d=D[k],el=d.el;
+    el.classList.toggle('hide',!visible().includes(k));
+    el.classList.toggle('full',full===k);
+    el.style.cssText+=`;left:${d.x}px;top:${d.y}px;width:${d.w}px;height:${d.h}px;--fw:${d.w}px`;
+    el.querySelector('.sz').textContent=`${Math.round(d.w)} × ${Math.round(d.h)}`+(nameFor(k,d)?` · ${nameFor(k,d)}`:'');
+    el.classList.toggle('focus',focus===k);
+  }
+  document.getElementById('zval').textContent=Math.round(scale*100)+'%';
+  board.classList.toggle('canpan',!full&&!document.getElementById('fit').checked);
+  document.getElementById('info').textContent=full?'':visible().map(k=>`${k} ${D[k].w}px`).join(' · ')+' · '+Math.round(scale*100)+'%';
+}
+
+/* ---------- resize from edge/corner; opposite edge/corner is the anchor ---------- */
+function startDrag(e,k,handle){
+  e.preventDefault();
+  const d=D[k],r=handle.dataset.r,{x:x0,y:y0,w:w0,h:h0}=d;
+  const sx=e.clientX,sy=e.clientY,snapPx=10;
+  const hasX=/[ew]/.test(r),hasY=/[ns]/.test(r);
+  handle.setPointerCapture(e.pointerId);handle.classList.add('on');
+  dragging=true;document.body.classList.add('dragging');d.el.classList.add('active');
+  const thr=snapPx/scale,{W,H}=maps(k),list=forType(k);
+  const near=(v,list)=>{let b=null,bd=thr;for(const p of list){const t=Math.abs(v-p);if(t<=bd){bd=t;b=p}}return b};
+
+  handle.onpointermove=m=>{
+    const dx=(m.clientX-sx)/scale,dy=(m.clientY-sy)/scale;
+    let w=w0,h=h0,hit=null;
+    if(hasX){w=r.includes('e')?w0+dx:w0-dx;w=Math.min(d.max,Math.max(d.min,w))}
+    if(hasY){h=r.includes('s')?h0+dy:h0-dy;h=Math.min(d.maxH,Math.max(d.minH,h))}
+    // snap to a named device: corners need both axes close; edges only the dragged axis
+    if(hasX&&hasY){
+      let best=null,bd=thr;
+      for(const p of list){const t=Math.max(Math.abs(w-p.w),Math.abs(h-p.h));if(t<=bd){bd=t;best=p}}
+      if(best){w=best.w;h=best.h;hit={w,h}}
+    }else if(hasX){const sw=near(w,[...W.keys()]);if(sw!=null){w=sw;hit={w}}}
+    else{const sh=near(h,[...H.keys()]);if(sh!=null){h=sh;hit={h}}}
+    if(hasX)d.x=r.includes('w')?x0+w0-w:x0;   // west drag keeps the right edge fixed
+    if(hasY)d.y=r.includes('n')?y0+h0-h:y0;   // north drag keeps the bottom edge fixed
+    d.w=Math.round(w);d.h=Math.round(h);
+    draw();drawGuides(k,r,x0,y0,w0,h0,hit,hasX,hasY);
+  };
+  handle.onpointerup=()=>{
+    handle.onpointermove=handle.onpointerup=null;handle.classList.remove('on');
+    dragging=false;document.body.classList.remove('dragging');d.el.classList.remove('active');
+    guides.innerHTML='';fit();
+  };
+}
+function drawGuides(k,r,x0,y0,w0,h0,hit,hasX,hasY){
+  // One dotted rectangle per device, grown from the fixed anchor corner/edge. Built only from the
+  // drag's START rect, so the rectangles never move while the frame does.
+  const east=!r.includes('w'),south=!r.includes('n'),seen=new Map();
+  for(const p of forType(k)){
+    const rw=hasX?p.w:w0,rh=hasY?p.h:h0,key=rw+'x'+rh;
+    if(!seen.has(key))seen.set(key,{rw,rh,names:[]});
+    seen.get(key).names.push(p.n);
+  }
+  guides.innerHTML=[...seen.values()].map(g=>{
+    const left=east?x0:x0+w0-g.rw,top=south?y0:y0+h0-g.rh;
+    const on=hit&&(!hasX||g.rw===hit.w)&&(!hasY||g.rh===hit.h);
+    const dim=hasX&&hasY?`${g.rw} × ${g.rh}`:hasX?g.rw:g.rh;
+    return `<div class="gr${on?' snap':''}" style="left:${left}px;top:${top}px;width:${g.rw}px;height:${g.rh}px"><span class="${east?'e':'w'} ${south?'s':'n'}">${g.names.join(' / ')} · ${dim}</span></div>`;
+  }).join('');
+}
+
+/* ---------- fullscreen (pseudo-fullscreen + browser fullscreen when allowed) ---------- */
+function enterFull(k){
+  full=k;document.body.classList.add('full');draw();
+  document.documentElement.requestFullscreen?.().catch(()=>{});
+}
+function exitFull(){
+  if(!full)return;full=null;document.body.classList.remove('full');
+  if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+  fit();
+}
+document.getElementById('fs').onclick=()=>enterFull(mode==='mobile'?'mobile':'desktop');
+document.getElementById('exit').onclick=exitFull;
+addEventListener('keydown',e=>{if(e.key==='Escape')exitFull()});
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement)exitFull()});
+
+/* ---------- header controls ---------- */
+document.getElementById('mode').onclick=e=>{
+  const b=e.target.closest('button');if(!b)return;
+  mode=b.dataset.m;focus=visible().includes(focus)?focus:visible()[0];
+  document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));
+  layout();fit();
+};
+document.getElementById('fit').onchange=fit;
+/* ---------- zoom the frames only (not the page chrome) ---------- */
+function setZoom(z,cx,cy){
+  if(full)return;
+  z=Math.min(4,Math.max(.1,z));
+  if(cx==null){cx=board.clientWidth/2;cy=board.clientHeight/2}
+  const wx=(cx+board.scrollLeft-tx)/scale,wy=(cy+board.scrollTop-ty)/scale;   // board point under the cursor
+  document.getElementById('fit').checked=false;zoom=z;fit();
+  board.scrollLeft=wx*scale+tx-cx;board.scrollTop=wy*scale+ty-cy;               // keep it under the cursor
+}
+function zoomWheel(e,frame){
+  if(full||!(e.ctrlKey||e.metaKey))return;
+  e.preventDefault();
+  const r=board.getBoundingClientRect(),fr=frame?frame.getBoundingClientRect():null;
+  const x=fr?fr.left+e.clientX*scale:e.clientX,y=fr?fr.top+e.clientY*scale:e.clientY;
+  setZoom(scale*Math.exp(-e.deltaY*.002),x-r.left,y-r.top);
+}
+function zoomKey(e){
+  if(full||!(e.ctrlKey||e.metaKey)||e.altKey)return;
+  if(e.key==='+'||e.key==='='){e.preventDefault();setZoom(scale*1.2)}
+  else if(e.key==='-'||e.key==='_'){e.preventDefault();setZoom(scale/1.2)}
+  else if(e.key==='0'){e.preventDefault();setZoom(1)}
+}
+document.getElementById('zin').onclick=()=>setZoom(scale*1.2);
+document.getElementById('zout').onclick=()=>setZoom(scale/1.2);
+document.getElementById('zval').onclick=()=>setZoom(1);
+board.addEventListener('wheel',e=>zoomWheel(e),{passive:false});
+document.addEventListener('keydown',zoomKey);
+document.querySelectorAll('iframe').forEach(f=>{
+  const hook=()=>{try{const d=f.contentDocument;d.addEventListener('wheel',e=>zoomWheel(e,f),{passive:false});d.addEventListener('keydown',zoomKey)}catch(e){}};
+  f.addEventListener('load',hook);hook();
+});
+// drag empty board space to pan when zoomed past fit
+board.addEventListener('pointerdown',e=>{
+  if(e.target!==board||document.getElementById('fit').checked||full)return;
+  const sx=e.clientX,sy=e.clientY,l=board.scrollLeft,t=board.scrollTop;
+  board.setPointerCapture(e.pointerId);board.classList.add('pan');
+  board.onpointermove=m=>{board.scrollLeft=l-(m.clientX-sx);board.scrollTop=t-(m.clientY-sy)};
+  board.onpointerup=()=>{board.onpointermove=board.onpointerup=null;board.classList.remove('pan')};
+});
+document.getElementById('reset').onclick=()=>{for(const k in D)Object.assign(D[k],{w:defs[k].w,h:defs[k].h});layout();fit()};
+const menu=document.getElementById('menu');let menuBtn=null;
+function applyPreset(k,p){focus=k;Object.assign(D[k],{w:p.w,h:p.h});layout();fit()}
+function closeMenu(){menu.classList.remove('show');menuBtn?.classList.remove('open');menuBtn=null}
+function openMenu(k,btn){
+  if(menuBtn===btn)return closeMenu();
+  closeMenu();menuBtn=btn;btn.classList.add('open');focus=k;draw();
+  const d=D[k];
+  const list=forType(k);
+  menu.innerHTML=list.map((p,i)=>`<button data-i="${i}" class="${p.w===d.w&&p.h===d.h?'cur':''}"><span>${p.n}</span><small>${p.w} × ${p.h}</small></button>`).join('');
+  menu.onclick=e=>{const b=e.target.closest('button');if(!b)return;applyPreset(k,list[b.dataset.i]);closeMenu()};
+  menu.classList.add('show');
+  const r=btn.getBoundingClientRect(),mw=menu.offsetWidth,mh=menu.offsetHeight;
+  menu.style.left=Math.max(8,Math.min(innerWidth-mw-8,r.right-mw))+'px';
+  menu.style.top=Math.max(8,Math.min(innerHeight-mh-8,r.bottom+6))+'px';
+}
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('#menu,.szbtn'))closeMenu()});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+const sel=document.getElementById('preset');
+const opt=t=>`<optgroup label="${t[0].toUpperCase()+t.slice(1)}">`+PRESETS.map((p,i)=>p.t===t?`<option value="${i}">${p.n} — ${p.w} × ${p.h}</option>`:'').join('')+'</optgroup>';
+sel.innerHTML='<option value="">Size…</option>'+opt('desktop')+opt('mobile');
+sel.onchange=()=>{
+  const p=PRESETS[sel.value];sel.value='';if(!p)return;
+  if(!visible().includes(p.t)){mode='both';document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x.dataset.m===mode))}
+  applyPreset(p.t,p);
+};
+addEventListener('resize',()=>{if(!dragging)fit()});
+layout();fit();
+</script>
+<script src="changes.js"></script>
+<script>
+/* ---------- design review panel ---------- */
+(function(){
+  const all=(window.CHANGES||[]).filter(c=>c.css||c.js);
+  const kind=c=>c.id.startsWith('f-')?'Feature':c.id.startsWith('m-')?'Motion':c.id.startsWith('v-')?'Visual':'UX';
+  const sums=(window.CHANGES||[]).filter(c=>c.summary);
+  const on=new Set(),byId=new Map(all.map(c=>[c.id,c]));
+  const esc=t=>String(t??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+  // scripted changes: run inside each frame's own window on toggle-on, undo (cleanup fn) on toggle-off
+  const live=new Map();
+  function runJs(){
+    document.querySelectorAll('iframe').forEach((f,idx)=>{
+      let d,w;try{d=f.contentDocument;w=f.contentWindow}catch(e){return}
+      if(!d||d.readyState!=='complete'||!d.querySelector('.header'))return;
+      for(const c of all){
+        if(!c.js)continue;
+        const key=c.id+'|'+idx,want=on.has(c.id),have=live.has(key);
+        if(want&&!have){let cl;try{cl=new w.Function('document','window',c.js)(d,w)}catch(e){console.error(c.id,e)}live.set(key,typeof cl==='function'?cl:()=>{})}
+        else if(!want&&have){try{live.get(key)()}catch(e){console.error(c.id,e)}live.delete(key)}
+      }
+    });
+  }
+  function inject(){
+    const css=all.filter(c=>on.has(c.id)&&c.css).map(c=>`/* ${c.id} */\n${c.css}`).join('\n');
+    document.querySelectorAll('iframe').forEach(f=>{
+      try{
+        const d=f.contentDocument;if(!d||!d.head)return;
+        let st=d.getElementById('review-css');
+        if(!st){st=d.createElement('style');st.id='review-css';d.head.append(st)}
+        st.textContent=css;
+      }catch(e){}
+    });
+    runJs();
+    document.querySelectorAll('.card').forEach(c=>c.classList.toggle('on',on.has(c.dataset.id)));
+    document.querySelectorAll('.card input').forEach(i=>i.checked=on.has(i.closest('.card').dataset.id));
+    document.getElementById('pcnt').textContent=`${on.size} of ${all.length} applied`;
+  }
+  function card(c){
+    return `<label class="card" data-id="${esc(c.id)}"><div class="top"><h5>${esc(c.title)}</h5><span class="act"><button type="button" class="eye" title="Show where this applies" aria-label="Show where: ${esc(c.title)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button><span class="sw"><input type="checkbox" aria-label="Toggle ${esc(c.title)}"><span></span></span></span></div>
+      <span class="pr">${esc(c.principle)} · ${kind(c)}${c.overlaps?` · overlaps ${c.overlaps.map(i=>byId.get(i)?.title||i).map(esc).join(', ')}`:''}</span>
+      <p><i>Problem:</i> ${esc(c.problem)}</p><p><i>Change:</i> ${esc(c.fix)}</p></label>`;
+  }
+  const major=all.filter(c=>c.tier==='major'),minor=all.filter(c=>c.tier!=='major');
+  document.getElementById('pbody').innerHTML=
+    (sums.length?`<div class="sum">${sums.map(c=>`<div><b>${esc(c.title)} — ${kind(c)}</b>${esc(c.problem||c.summary)}</div>`).join('')}</div>`:'')+
+    (all.length?`<div><div class="tier">Biggest improvements</div><div class="cards">${major.map(card).join('')}</div></div>
+    <div><div class="tier">Smaller refinements</div><div class="cards">${minor.map(card).join('')}</div></div>`:'<div class="cnt">No pending suggestions. The last round was applied to the site.</div>');
+  // where each change shows up: [css selector in the site, optional frame it is specific to]
+  const AT={
+    'u-form-states':['form'],'v-field-borders':['form .row'],'u-honest-links':['#services article h3'],
+    'u-mobile-header-cta':['.header','mobile'],'v-focus-visible':['.hero .actions'],'u-focus-motion':['.hero .actions'],
+    'v-type-floor':['.overview'],'u-microcopy-size':['.hero-img .caption'],'v-body-readability':['#about .stack'],
+    'v-touch-targets':['footer .foot nav'],'u-footer-targets':['footer .foot nav'],'u-faq-affordance':['.qs'],'v-faq-no-shift':['.qs'],
+    'u-nav-hover-active':['.header nav'],'u-continue-cta':['.continue'],'v-label-tracking':['#about .label'],
+    'v-mute-darken':['#about .body'],'v-reduced-motion':['.header nav'],'v-link-hover':['.hero .actions'],'v-swatch-outline':['.swatches'],
+    'm-headline-reveal':['#about h2'],'m-image-reveal':['#about .photo'],'m-hero-wall-wipe':['.hero-img'],'m-colour-lab':['.story'],
+    'm-stagger':['#services .services'],'m-hide-header':['.header'],'m-button-fill':['.hero .actions'],'m-card-hover':['#services .services'],
+    'f-colour-palette':['form'],'m-grain':['#projects'],'m-parallax':['.hero-img'],'m-before-after':['.story'],'m-footer-wordmark':['footer']
+  };
+  function reveal(id){
+    const [sel,only]=AT[id]||['#home'];
+    if(only&&!visible().includes(only)){mode='both';document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x.dataset.m===mode));layout();fit()}
+    setTimeout(()=>{
+      for(const k of (only?[only]:visible())){
+        const f=D[k].el.querySelector('iframe'),w=f.contentWindow,d=f.contentDocument;
+        let el=d.querySelector(sel);
+        while(el&&el.getBoundingClientRect().height===0)el=el.parentElement;   // e.g. nav hidden on mobile
+        if(!el)continue;
+        const hdr=d.querySelector('.header'),hh=getComputedStyle(hdr).position==='sticky'?hdr.offsetHeight:0;
+        w.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+w.scrollY-hh-32),behavior:'smooth'});
+        const keep=[el.style.outline,el.style.outlineOffset,el.style.transition];
+        el.style.transition='outline-color .5s';el.style.outline='3px solid #bb1736';el.style.outlineOffset='8px';
+        setTimeout(()=>{el.style.outlineColor='transparent'},1400);
+        setTimeout(()=>{el.style.outline=keep[0];el.style.outlineOffset=keep[1];el.style.transition=keep[2]},2000);
+      }
+    },80);
+  }
+  document.getElementById('pbody').addEventListener('click',e=>{
+    const b=e.target.closest('.eye');if(!b)return;
+    e.preventDefault();e.stopPropagation();reveal(b.closest('.card').dataset.id);
+  });
+  document.getElementById('pbody').addEventListener('change',e=>{
+    const id=e.target.closest('.card')?.dataset.id;if(!id)return;
+    e.target.checked?on.add(id):on.delete(id);inject();
+  });
+  document.getElementById('pmajor').onclick=()=>{on.clear();major.forEach(c=>on.add(c.id));inject()};
+  document.getElementById('pall').onclick=()=>{all.forEach(c=>on.add(c.id));inject()};
+  document.getElementById('pnone').onclick=()=>{on.clear();inject()};
+  const grip=document.getElementById('pgrip'),panel=document.getElementById('panel');
+  grip.onpointerdown=e=>{
+    e.preventDefault();grip.setPointerCapture(e.pointerId);const y0=e.clientY,h0=panel.offsetHeight
+    grip.onpointermove=m=>{panel.style.height=Math.max(90,Math.min(innerHeight-200,h0-(m.clientY-y0)))+'px'};
+    grip.onpointerup=()=>{grip.onpointermove=grip.onpointerup=null;fit()};
+  };
+  document.getElementById('pcol').onclick=e=>{
+    const c=document.getElementById('panel').classList.toggle('collapsed');e.currentTarget.textContent=c?'▴':'▾';
+  };
+  document.querySelectorAll('iframe').forEach((f,idx)=>f.addEventListener('load',()=>{for(const k of [...live.keys()])if(k.endsWith('|'+idx))live.delete(k);inject()}));
+  inject();
+  let lastW=0,lastH=0;
+  new ResizeObserver(()=>{
+    const bd=document.getElementById('board');
+    if(Math.abs(bd.clientWidth-lastW)<2&&Math.abs(bd.clientHeight-lastH)<2)return;
+    lastW=bd.clientWidth;lastH=bd.clientHeight;
+    if(typeof dragging!=='undefined'&&!dragging)fit();
+  }).observe(document.getElementById('board'));
+})();
+</script>
+</body>
+</html>

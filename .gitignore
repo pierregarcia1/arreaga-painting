@@ -1,0 +1,4 @@
+dist/
+*.before-*
+.claude/
+__pycache__/
