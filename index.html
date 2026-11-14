@@ -11,6 +11,15 @@
 :root{--red:#bb1736;--ink:#141414;--bg:#f7f7f5;--grey:#ececea;--mute:#666;--soft:#b9b9b5;--line:#d4d4d0}
 *{box-sizing:border-box;margin:0}
 body{overflow-x:clip}
+
+/* slim ink scrollbar: a thin dark pill that turns red on hover (Firefox gets a thin dark one) */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--ink);border:2px solid transparent;border-radius:99px;background-clip:padding-box;min-height:48px}
+::-webkit-scrollbar-thumb:hover{background:var(--red);background-clip:padding-box}
+::-webkit-scrollbar-thumb:active{background:#9c1230;background-clip:padding-box}
+::-webkit-scrollbar-corner{background:transparent}
+@supports not selector(::-webkit-scrollbar){html{scrollbar-width:thin;scrollbar-color:#141414 transparent}}
 html{scroll-behavior:smooth;overflow-anchor:none;overscroll-behavior:none;background:#fff}
 body{font-family:Inter,sans-serif;background:var(--bg);color:var(--ink)}
 img{display:block;max-width:100%}
