@@ -234,6 +234,9 @@ footer{background:#fff;padding:40px 72px 32px;display:flex;flex-direction:column
   .hero,.about,.intro,.services,.gallery,.story,.steps,.guide,.faq,.contact,.request,.row,.finish,.principles,.opts,.continue,.foot,.notes,.submit,.study{flex-direction:column;gap:28px}
   .hero{padding:0 20px;height:auto}
   .hero-img{height:360px;margin:0 -20px}
+  /* hero caption box: top right of the photo on phones and portrait tablets */
+  .caption{top:0;right:0;bottom:auto;left:auto;width:min(230px,70%);padding:16px}
+  .caption b{font-size:24px}
   .overview{flex-wrap:wrap;height:auto;gap:12px 24px;padding:24px 20px}
   h1{font-size:64px}h2,.s58{font-size:42px}.s76{font-size:48px}
   .lead{width:auto}.photo{height:360px}.note{width:auto;left:16px;font-size:24px}
