@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the shareable single-file HTML versions of the RREAGA Painting site.
+"""Build the shareable single-file HTML versions of the Arreaga Painting site.
 
     python tools/build.py [site|board|preview|all] [--out DIR]
 
@@ -65,9 +65,8 @@ def build_preview(site):
     b = b.replace('<button data-m="desktop" class="on">Desktop</button>', '<button data-m="desktop" class="on">Laptop</button>')
     b = b.replace('    <button data-m="both">Both</button>\n', '')
     assert 'data-m="both"' not in b
-    b = b.replace('<b>Arreaga Painting</b>', '<b>RREAGA Painting</b>', 1)
     b = b.replace('</style>', '#preset,#reset{display:none}\n</style>', 1)   # keep the elements (the script references them), hide them
-    b = b.replace('<title>Arreaga Painting · Board</title>', '<title>RREAGA Painting · Website preview</title>')
+    b = b.replace('<title>Arreaga Painting · Board</title>', '<title>Arreaga Painting · Website preview</title>')
     b = b.replace('<span>${k[0].toUpperCase()+k.slice(1)}</span>', '<span>${k==="desktop"?"Laptop":"Mobile"}</span>')
     return embed_site(b, site)
 

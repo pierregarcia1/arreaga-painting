@@ -203,7 +203,7 @@ css:`.dark,.guide{position:relative;isolation:isolate}
 
 {id:'m-footer-wordmark',tier:'minor',title:'Oversized footer wordmark',principle:'Brand memorability / confident close',
 problem:`The footer ends quietly with small links, so the page loses its voice at the bottom.`,
-fix:`A huge outlined RREAGA wordmark closes the page, echoing the condensed headline type.`,
-css:`footer:after{content:"RREAGA";display:block;margin-top:6px;text-align:center;font:700 clamp(80px,21vw,330px)/.78 'Barlow Condensed',sans-serif;letter-spacing:.01em;color:transparent;-webkit-text-stroke:2px #d4d4d0;overflow:hidden;user-select:none}
+fix:`A huge outlined Arreaga wordmark closes the page, echoing the condensed headline type.`,
+css:`footer:after{content:"ARREAGA";display:block;margin-top:6px;text-align:center;font:700 clamp(80px,21vw,330px)/.78 'Barlow Condensed',sans-serif;letter-spacing:.01em;color:transparent;-webkit-text-stroke:2px #d4d4d0;overflow:hidden;user-select:none}
 @media (max-width:800px){footer:after{-webkit-text-stroke-width:1.5px}}`}
 ];

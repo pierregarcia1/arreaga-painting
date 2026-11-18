@@ -1,12 +1,12 @@
-# RREAGA Painting — website and design board
+# Arreaga Painting — website and design board
 
-A single-page marketing site for RREAGA Painting (residential and commercial painting), recreated from a Figma design, plus a **design board** for viewing and reviewing the site on Laptop and Mobile screens.
+A single-page marketing site for Arreaga Painting (residential and commercial painting), recreated from a Figma design, plus a **design board** for viewing and reviewing the site on Laptop and Mobile screens.
 
 - **Live site:** https://pierregarcia1.github.io/arreaga-painting/ (GitHub Pages, public)
 - **Repo:** https://github.com/pierregarcia1/arreaga-painting (full source; GitHub Pages serves the `docs/` folder)
 - **Design source:** https://www.figma.com/design/pLjBaJapATm7s9KUyxKL6z/Arreaga-Painting (desktop 1440px and mobile 390px frames)
 
-> **Before going live for real:** the header phone button dials a fictional placeholder, `tel:+15550100000`. Replace it in `index.html` (the `<a class="call">` in the header). The consultation form also has no backend yet. See [Known gaps](#known-gaps).
+> **Before going live for real:** the header phone button dials a fictional placeholder, `tel:+15550100000`. Replace it in `index.html` in two places: the header phone button (`<a class="call">`) and the hero phone link (`<a class="phone-link">`, which also shows the number as text). The consultation form also has no backend yet. See [Known gaps](#known-gaps).
 
 ---
 
@@ -74,15 +74,16 @@ In the Claude desktop app, a local `.claude/launch.json` entry named `paint-boar
 
 ## The site
 
-One page, twelve blocks, in this order: header, hero (Home), About, Services, Projects, project story (cabinet concept), Process, Colour and finish guide, Common questions (FAQ), Contact banner, Request a consultation (form), footer. Anchor ids: `home`, `about`, `services`, `projects`, `process`, `contact`, `consultation`.
+One page, thirteen blocks, in this order: header, hero (Home), About, Services, Projects, project story (cabinet concept), Process, Colour and finish guide, Common questions (FAQ), Contact banner, Request a consultation (form), Map (`#visit`), footer. Anchor ids: `home`, `about`, `services`, `projects`, `process`, `contact`, `consultation`.
 
 ### Look and feel
 
 | | |
 |---|---|
-| Fonts | Barlow Condensed (headings), Inter (body), loaded from Google Fonts |
-| Colours | red `#bb1736`, ink `#141414`, off-white `#f7f7f5`, grey `#ececea`, muted text `#4f4f4f`, soft text `#cdcdc9`, line `#d4d4d0` (CSS variables at the top of `style.css`; the muted/soft values are overridden near the end by the contrast fix) |
-| Imagery | Architectural stock images are labelled "illustrative concepts", not completed RREAGA projects |
+| Fonts | Work Sans (weight 900, uppercase for headings; regular for body), from Google Fonts. Inter and Barlow Condensed are still loaded as fallbacks |
+| Colours | deep red `#921a12`, navy ink `#17202b`, pale blue-white `#f6fafe`, grey `#f0f4f8`, line `#d6dade`, muted text `#4a5560`, soft text `#c5ccd4` (CSS variables on `html.drl`) |
+| Style | An industrial commercial look inspired by commercial-contractor sites: full-bleed photo hero under a dark overlay, heavy uppercase headings, square uppercase buttons, white shadowed cards, a navy colour guide and footer, a solid red call-to-action band, and a quote form with underlined fields. It is all scoped under `html.drl` (set on the `<html>` tag) in the last block of `style.css`. Section labels keep their small red dash and uppercase style |
+| Imagery | Architectural stock images are labelled "illustrative concepts", not completed Arreaga projects |
 | Icons | Arrows are inline SVG (class `ar`), not text characters, so iOS can't turn them into emoji. The menu icon and check marks are plain text characters |
 
 ### Responsive behaviour
@@ -123,6 +124,10 @@ Fields: full name, email, phone (optional), project location, service, preferred
 The **colour palette** offers 12 swatches (Warm White, Linen, Greige, Taupe, Mist, Soft Grey, Slate, Charcoal, Sage, Sea Blue, Navy, Terracotta) and a pick-your-own colour wheel; a custom pick is matched to the nearest swatch name. It submits two hidden fields: `colour_hex` and `colour_name`.
 
 Submitting currently only swaps the button text to "Thank you". There is no backend (see Known gaps).
+
+### Map
+
+Between the form and the footer, a Google Map embed (`<iframe class="map">`, no API key; it uses the `maps?q=...&output=embed` form) is centred on the business address, **4200 Perimeter Center Dr #245, Oklahoma City, OK 73112**, with an address card and a "Get directions" link that opens Google Maps in a new tab. The card floats at the right of the map on screens wider than 800px and stacks above it on phones. The iframe is `loading="lazy"`, so Google is only contacted when the map nears the screen. To change the address, edit the `q=` value in the iframe `src`, the directions link and the visible address, all in the `#visit` section of `index.html`. The map is the one extra outside request besides Google Fonts, so it needs a connection.
 
 ### Accessibility
 
@@ -176,7 +181,7 @@ The review panel under the board lets you preview proposed changes live, before 
 2. Reload the board. Each card has a toggle and an **eye** button that scrolls the frames to where the change applies. **Apply all major**, **Apply all** and **Clear** are in the panel header.
 3. When happy, ask to apply the selection: the selected CSS is appended to `style.css` (in review order, so later rules win exactly as in the preview), JS blocks go into a script at the end of `index.html`, the round is archived to `changes.archive-*.js`, and `changes.js` is reset to an empty list.
 
-Rounds so far: visual and UX (15 applied), motion (10 applied), colour palette (applied). Declined items are kept in the archives.
+Rounds so far: visual and UX (15 applied), motion (10 applied), colour palette (applied), commercial-first rewrite (declined; the copy stays residential and commercial), industrial commercial look (applied, styling only). Declined items are kept in the archives.
 
 ---
 
@@ -238,7 +243,7 @@ Don't send the HTML files as attachments: iOS previews in Mail, Messages and Fil
 
 ## Known gaps
 
-- **Phone number is a placeholder** (`+1 555 010 0000`, a reserved fictional number). Replace it with the real one in the header phone button.
+- **Phone number is a placeholder** (`+1 555 010 0000`, a reserved fictional number). Replace it with the real one in both the header phone button and the hero phone link (`href` and the visible text).
 - **The consultation form has no backend.** Submit only changes the button text. Wire it to a form service or API; the colour choice will arrive as `colour_hex` and `colour_name`.
 - **No real "before" photo** for the cabinet slider (it shows a simulated desaturated copy).
 - **No separate pages or links for services and projects.** The service cards and project captions aren't links (their arrows are hidden on purpose), and every call to action goes to the form.
@@ -257,8 +262,11 @@ Each round of changes left a snapshot so it can be reverted by copying the file 
 | `style.before-tablet.css` | the tablet layout work |
 | `style.before-palette.css`, `index.before-palette.html` | the colour palette |
 | `style.before-arrows.css`, `index.before-arrows.html` | replacing arrow characters with SVG |
+| `style.before-industrial.css`, `index.before-industrial.html` | the industrial commercial look |
 | `changes.archive.js` | review round 1: 20 visual and UX suggestions (15 applied) |
 | `changes.archive-motion.js` | review round 2: 12 motion suggestions (10 applied) |
 | `changes.archive-palette.js` | review round 3: the colour palette (applied) |
+| `changes.archive-commercial.js` | review round 4: a commercial-first version of the whole site, as a toggle (declined, not applied) |
+| `changes.archive-industrial.js` | review round 5: the industrial commercial look (applied; the section-label restyle was removed before applying) |
 
 Git history: the page was first published as a single built file (commits "Add RREAGA Painting site", "Slim ink scrollbar", "Replace arrow characters with inline SVG and centre the mobile footer"); the repo was then restructured into the full source repository described above, with Pages pointed at `docs/`.
