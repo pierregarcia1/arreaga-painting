@@ -6,28 +6,36 @@
   site     dist/arreaga-painting-site.html          the website alone (CSS + images inlined), for sharing a file
   board    dist/arreaga-painting-design-board.html  the design board with the Design review panel
   preview  dist/arreaga-painting-preview.html       the board reduced to a simple Laptop / Mobile toggle
-  pages    docs/index.html (+ docs/.nojekyll)       the same single-file website, in the folder GitHub Pages serves
+  pages    docs/index.html (+ .nojekyll)            the same single-file website, in the folder GitHub Pages serves,
+           docs/assets/hero.mp4, hero-sm.mp4        plus the hero videos it loads (a video can't be inlined)
 
-All outputs are one self-contained file. The only outside request is Google Fonts.
+All outputs are one self-contained file; the only outside requests are Google Fonts and the Google Maps embed.
+The hero background video is the one exception: only the `pages` build ships it, so the files in dist/ show the
+still poster image instead of the video.
 The board files carry the site inside them and hand it to their two iframes through `srcdoc`.
 """
-import base64, json, os, re, sys
+import base64, json, os, re, shutil, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 rd = lambda f: open(os.path.join(ROOT, f), encoding='utf-8').read()
 
 
 def build_site():
-    """index.html with style.css and every assets/*.png inlined."""
+    """index.html with style.css and every assets/*.png and *.jpg image inlined."""
     site = rd('index.html')
     link = '<link rel="stylesheet" href="style.css">'
     assert site.count(link) == 1, 'stylesheet link not found in index.html'
     site = site.replace(link, '<style>\n' + rd('style.css') + '\n</style>')
+    lang = '<script src="lang-es.js"></script>'
+    assert site.count(lang) == 1, 'lang-es.js script tag not found'
+    site = site.replace(lang, '<script>\n' + rd('lang-es.js') + '\n</script>')
+    mime = {'png': 'image/png', 'jpg': 'image/jpeg'}
     site = re.sub(
-        r'src="(assets/[^"]+\.png)"',
-        lambda m: 'src="data:image/png;base64,' + base64.b64encode(open(os.path.join(ROOT, m.group(1)), 'rb').read()).decode() + '"',
+        r'src="(assets/[^"]+\.(png|jpg))"',
+        lambda m: 'src="data:%s;base64,' % mime[m.group(2)] + base64.b64encode(open(os.path.join(ROOT, m.group(1)), 'rb').read()).decode() + '"',
         site)
-    assert 'assets/' not in site and 'style.css' not in site
+    # (the hero video path lives inside a script string, so only src="assets/..." attributes must be gone)
+    assert not re.search(r'src="assets/', site) and link not in site and lang not in site
     return site
 
 
@@ -71,6 +79,9 @@ def build_preview(site):
     return embed_site(b, site)
 
 
+# hero background videos are too big to inline, so only the `pages` build copies them (to docs/assets/, next to the page)
+VIDEOS = ['hero.mp4', 'hero-sm.mp4']
+
 # name -> (folder under the output root, file name, builder)
 TARGETS = {
     'site': ('dist', 'arreaga-painting-site.html', lambda site: site),
@@ -97,8 +108,11 @@ def main(argv):
         dst = os.path.join(out, folder, fname)
         with open(dst, 'w', encoding='utf-8') as f:
             f.write(fn(site))
-        if n == 'pages':   # GitHub Pages: serve the file as-is, skip Jekyll
+        if n == 'pages':   # GitHub Pages: serve the file as-is, skip Jekyll, and ship the hero videos beside it
             open(os.path.join(out, folder, '.nojekyll'), 'w').close()
+            os.makedirs(os.path.join(out, folder, 'assets'), exist_ok=True)
+            for v in VIDEOS:
+                shutil.copy(os.path.join(ROOT, 'assets', v), os.path.join(out, folder, 'assets', v))
         print('%-8s %s  (%d KB)' % (n, dst, round(os.path.getsize(dst) / 1024)))
 
 

@@ -2,3 +2,9 @@ dist/
 *.before-*
 .claude/
 __pycache__/
+# raw media dropped into assets/ (too big or not web formats). Put web-ready versions under other names.
+assets/Arreaga_video.mp4
+assets/Britton Building (2).jpg
+assets/*.HEIC
+assets/*.heic
+assets/Office.jpg

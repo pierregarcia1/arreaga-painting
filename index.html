@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="drl">
+<html lang="en" class="drl biglogo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,9 +20,11 @@
       <a href="#services">Services</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
+      <button class="nav-lang" type="button" lang="es" aria-label="Español"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lf">Español</span></button>
       <a href="#consultation" class="nav-cta">Request a consultation <span aria-hidden="true"><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
     </nav>
     <a class="btn" href="#consultation">Request a consultation <span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+    <button class="langbtn" type="button" lang="es" aria-label="Español"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lf">Español</span><span class="sh">ES</span></button>
     <a class="call" href="tel:+15550100000" aria-label="Call Arreaga Painting"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></a>
     <button class="menu" aria-label="Menu" aria-expanded="false" aria-controls="nav" onclick="setMenu(!document.getElementById('nav').classList.contains('open'))">☰</button>
 </header>
@@ -31,19 +33,20 @@
 
   <div class="hero">
     <div class="hero-msg">
-      <p class="label light">Arreaga Painting · Residential &amp; commercial</p>
+      <p class="label light">Arreaga Painting · Commercial &amp; residential</p>
       <h1>Commercial<br>painting.</h1>
-      <p class="lead">A fresh perspective. A considered color. A finish that brings it all together.</p>
+      <p class="lead">Professional painting for commercial and residential spaces.</p>
       <div class="actions">
         <a class="btn" href="#consultation">Request a consultation <span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
         <a class="phone-link" href="tel:+15550100000" aria-label="Call Arreaga Painting on +1 555 010 0000"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>+1 555 010 0000</a>
         <a href="#services" class="plain">Explore our services <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
       </div>
-      <p class="cue"><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg> A NEW CHAPTER FOR YOUR SPACE</p>
+      <p class="cue"><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg> SEE WHAT WE DO</p>
     </div>
     <div class="hero-img">
-      <img src="assets/interior.png" alt="Modern interior">
-      <div class="caption"><small>THE POWER OF A NEW FINISH</small><b>Same space.<br>Entirely new feeling.</b></div>
+      <img src="assets/hero-poster.jpg" alt="Aerial view of a commercial building being repainted by Arreaga Painting">
+      <video class="herovideo" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="caption"><small>QUALITY FINISHES</small><b>Clean lines.<br>Lasting results.</b></div>
     </div>
   </div>
 
@@ -60,14 +63,14 @@
   </div>
   <div class="stack">
     <p class="label">About Arreaga</p>
-    <h2>More than paint.<br>A point of view.</h2>
-    <p class="body">The right finish can change how a room feels and how a building presents itself. Arreaga Painting brings a thoughtful approach to the surfaces you live and work with.</p>
-    <p class="body">From the first color conversation to the final details, the focus is simple: understand the space, respect what surrounds it, and make every surface feel considered.</p>
+    <h2>Quality work.<br>Done right.</h2>
+    <p class="body">Arreaga Painting delivers professional painting and finishing for commercial and residential properties.</p>
+    <p class="body">We plan carefully, protect your space and finish every surface to a high standard.</p>
     <hr>
     <div class="principles">
-      <div><i></i><b>Thoughtful preparation</b></div>
-      <div><i></i><b>Considered finishes</b></div>
-      <div><i></i><b>Care for your space</b></div>
+      <div><i></i><b>Careful preparation</b></div>
+      <div><i></i><b>Quality finishes</b></div>
+      <div><i></i><b>Respect for your space</b></div>
     </div>
   </div>
 </section>
@@ -76,71 +79,131 @@
   <div class="intro">
     <div>
       <p class="label">What we do</p>
-      <h2>Your space.<br>Our canvas.</h2>
+      <h2>Painting and<br>finishing.</h2>
     </div>
-    <p class="body">A room refresh or a larger transformation. Explore painting services designed around your surfaces, your style and your project.</p>
+    <p class="body">Interior, exterior, commercial and cabinet painting for projects of any size.</p>
   </div>
   <div class="services">
     <div>
-      <article><h3><em>01</em>Interior painting<span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></h3><p>Give everyday rooms a new atmosphere with thoughtfully chosen colors and a cohesive finish.</p><small>Walls · Ceilings · Doors · Trim</small></article>
-      <article><h3><em>02</em>Exterior painting<span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></h3><p>Refresh the character of your exterior with a coating approach suited to the surface and its exposure.</p><small>Siding · Fascia · Entryways · Exterior trim</small></article>
+      <article><h3><em>01</em>Interior painting<span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></h3><p>Walls, ceilings, doors and trim, prepared and finished cleanly.</p><small>Walls · Ceilings · Doors · Trim</small></article>
+      <article><h3><em>02</em>Exterior painting<span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></h3><p>Durable coatings matched to the surface and the weather exposure.</p><small>Siding · Fascia · Entryways · Exterior trim</small></article>
     </div>
     <div>
-      <article><h3><em>03</em>Commercial spaces<span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></h3><p>Create a considered backdrop for your business, with project planning shaped around how the space is used.</p><small>Offices · Retail · Shared interiors</small></article>
-      <article><h3><em>04</em>Cabinets &amp; woodwork<span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></h3><p>Bring definition to the details. Explore a fresh finish for cabinetry, built-ins and architectural woodwork.</p><small>Cabinets · Built-ins · Doors · Millwork</small></article>
+      <article><h3><em>03</em>Commercial spaces<span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></h3><p>Painting for offices, retail and shared spaces, scheduled around your operations.</p><small>Offices · Retail · Shared interiors</small></article>
+      <article><h3><em>04</em>Cabinets &amp; woodwork<span><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span></h3><p>Cabinets, built-ins and woodwork refinished for a smooth, durable surface.</p><small>Cabinets · Built-ins · Doors · Millwork</small></article>
     </div>
   </div>
+</section>
+
+<section id="our-services" class="pad ourserv">
+  <p class="label">Our services</p>
+  <h2>Everything your surfaces need.</h2>
+  <div class="svc-grid">
+    <div class="svc"><h3>Painting</h3><ul>
+      <li>Interior Painting</li>
+      <li>Exterior Painting</li>
+      <li>Repainting &amp; Renovations</li>
+      <li>Surface Preparation</li>
+    </ul></div>
+    <div class="svc"><h3>Drywall Finishing</h3><ul>
+      <li>Taping &amp; Mudding</li>
+      <li>Texture Matching</li>
+      <li>Wall Repairs &amp; Smoothing</li>
+      <li>Level 4 &amp; 5 Finishes</li>
+    </ul></div>
+    <div class="svc"><h3>Wallcoverings</h3><ul>
+      <li>Wallpaper Installation</li>
+      <li>Decorative Wall Finishes</li>
+      <li>Commercial Wallcovering Solutions</li>
+    </ul></div>
+    <div class="svc"><h3>Concrete &amp; Flooring</h3><ul>
+      <li>Concrete Sealer</li>
+      <li>Color Flooring</li>
+      <li>Epoxy Flooring</li>
+      <li>Interior &amp; Exterior</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="serve" class="pad grey serve">
+  <p class="label">Who we serve</p>
+  <h2>Every kind of space.</h2>
+  <ul class="serve-grid">
+    <li>Offices</li>
+    <li>Restaurants</li>
+    <li>Retail stores</li>
+    <li>Hotels</li>
+    <li>Warehouses</li>
+    <li>Schools</li>
+    <li>Churches</li>
+    <li>Hospitals</li>
+    <li>Homes</li>
+  </ul>
 </section>
 
 <section id="projects" class="pad dark">
   <div class="intro">
     <div>
-      <p class="label light">Project inspiration</p>
-      <h2 class="on-dark">Possibilities in paint.</h2>
+      <p class="label light">Our work</p>
+      <h2 class="on-dark">Real spaces. Real finishes.</h2>
     </div>
-    <p class="note-sm">Illustrative concepts, not completed Arreaga projects. A starting point for your own space.</p>
+    <p class="note-sm">Photos from Arreaga Painting commercial projects.</p>
   </div>
-  <div class="gallery">
-    <figure class="big">
-      <img src="assets/project1.png" alt="Interior concept">
-      <figcaption><span><small>INTERIOR CONCEPT / WARM NEUTRALS</small><b>A softer kind of statement</b></span><i><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></i></figcaption>
+  <div class="gallery trio">
+    <figure>
+      <img src="assets/project-lindsey.jpg" alt="Indoor athletic facility with a turf field and tiger mural at Lindsey Public Schools" loading="lazy">
+      <figcaption><span><small>EDUCATION / INSTITUTIONAL</small><b>Lindsey Public Schools</b></span><i><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></i></figcaption>
     </figure>
-    <figure class="small">
-      <img src="assets/project2.png" alt="Exterior concept">
-      <figcaption><span><small>EXTERIOR CONCEPT / CONTRAST &amp; CHARACTER</small><b>A fresh first impression</b></span><i><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></i></figcaption>
+    <figure>
+      <img src="assets/project-britton.jpg" alt="Exterior of the Britton Building, a white-painted brick commercial building with arched storefronts" loading="lazy">
+      <figcaption><span><small>RETAIL / COMMERCIAL EXTERIOR</small><b>Britton Building</b></span><i><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></i></figcaption>
+    </figure>
+    <figure>
+      <img src="assets/project-office.jpg" alt="Finished commercial interior with polished concrete floors and open workspace" loading="lazy">
+      <figcaption><span><small>COMMERCIAL / INTERIOR</small><b>A clean, finished interior</b></span><i><svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></i></figcaption>
     </figure>
   </div>
-  <div class="continue"><span>Have a space in mind? Let’s explore what it could become.</span><a href="#consultation">Start your project <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+  <div class="continue"><span>Have a project? Let’s talk.</span><a href="#consultation">Start your project <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+</section>
+
+<section class="suppliers pad" id="suppliers" aria-label="Trusted suppliers">
+  <p class="label">Trusted suppliers</p>
+  <h2>Quality materials from names you know.</h2>
+  <ul class="logos">
+    <li><img src="assets/Logos/Sherwin_Logo.png" alt="Sherwin-Williams" loading="lazy"></li>
+    <li><img src="assets/Logos/Spectrum_Logo.png" alt="Spectrum Paint" loading="lazy"></li>
+    <li><img src="assets/Logos/HIS_Logo.png" alt="HIS Paint" loading="lazy"></li>
+  </ul>
 </section>
 
 <section class="story grey">
   <img src="assets/cabinet.png" alt="Cabinet concept">
   <div class="story-body">
-    <p class="label">Inside the idea / Cabinet concept</p>
+    <p class="label">Cabinet refinishing</p>
     <h2 class="s58">Small details.<br>Big shift.</h2>
-    <p class="body">A deeper cabinet color gives familiar architecture a new presence. Paired with a soft wall tone, the contrast feels intentional rather than overpowering.</p>
+    <p class="body">A deeper cabinet color adds depth to the room. Paired with a soft wall tone, the contrast stays clean and balanced.</p>
     <hr>
     <div class="finish">
       <div><small>THE PALETTE</small><div class="swatches"><i style="background:#353737"></i><i style="background:#d4d2cc"></i><i style="background:#e9e7e0"></i></div></div>
-      <div><small>THE INTENT</small><p>A grounded contrast.<br>A quieter, richer finish.</p></div>
+      <div><small>THE INTENT</small><p>Balanced contrast.<br>A refined finish.</p></div>
     </div>
-    <a class="red-link" href="#consultation">Explore a finish for your cabinetry <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    <a class="red-link" href="#consultation">Refinish your cabinets <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
   </div>
 </section>
 
 <section id="process" class="pad">
   <div class="intro">
     <div>
-      <p class="label">From first conversation to final coat</p>
-      <h2>A clear path to<br>a fresh start.</h2>
+      <p class="label">Our process</p>
+      <h2>A clear process,<br>start to finish.</h2>
     </div>
-    <p class="body">Good work starts with a shared plan. Here’s how a painting project comes together.</p>
+    <p class="body">Four steps from first call to final walkthrough.</p>
   </div>
   <div class="steps">
-    <div><em>01</em><h4>Talk about your space</h4><p>Share what you want to change, the surfaces involved and your preferred timing.</p></div>
-    <div><em>02</em><h4>Shape the plan</h4><p>Discuss preparation, color and finish options, then define the scope before work begins.</p></div>
-    <div><em>03</em><h4>Prepare &amp; paint</h4><p>Protect surrounding areas, address the surface and build the finish with care.</p></div>
-    <div><em>04</em><h4>Look at every detail</h4><p>Review the finished space together and talk through care for the new surfaces.</p></div>
+    <div><em>01</em><h4>Consultation</h4><p>Tell us the surfaces, scope and timing.</p></div>
+    <div><em>02</em><h4>Plan</h4><p>We confirm preparation, color, finish and scope before work starts.</p></div>
+    <div><em>03</em><h4>Prepare &amp; paint</h4><p>We protect surrounding areas, prepare surfaces and apply the finish.</p></div>
+    <div><em>04</em><h4>Final walkthrough</h4><p>We review the finished work with you.</p></div>
   </div>
 </section>
 
@@ -148,8 +211,8 @@
   <div class="guide-text">
     <p class="label light">Color &amp; finish</p>
     <h2 class="on-dark">The right color.<br>In the right light.</h2>
-    <p class="body light">Color changes with the room, the light and the materials around it. Start with the feeling you want, then consider samples in your own space.</p>
-    <a class="white-link" href="#consultation">Let’s talk through your options <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    <p class="body light">Color changes with light and surroundings. We recommend testing samples in your space before you decide.</p>
+    <a class="white-link" href="#consultation">Discuss your options <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
   </div>
   <div class="mood">
     <div class="study">
@@ -165,44 +228,44 @@
       <div><b>Eggshell</b><p>A subtle, gentle sheen.</p></div>
       <div><b>Satin</b><p>A more luminous finish.</p></div>
     </div>
-    <small class="light">Final product and sheen choices depend on the surface and how it will be used.</small>
+    <small class="light">Final product and sheen depend on the surface and its use.</small>
   </div>
 </section>
 
 <section class="pad grey faq">
   <div class="faq-intro">
-    <p class="label">Before we begin</p>
-    <h2>A few good<br>questions.</h2>
-    <p class="body">Every space is different. A consultation is the place to ask questions and work through the details.</p>
+    <p class="label">FAQ</p>
+    <h2>Common<br>questions.</h2>
+    <p class="body">Answers to common questions before you request a consultation.</p>
   </div>
   <div class="qs">
-    <details open><summary>What should I include in a consultation request?</summary><p>Tell us which spaces or surfaces you have in mind, your general location and your ideal timing. Photos, approximate dimensions and any color ideas can help shape the conversation.</p></details>
-    <details><summary>Can we talk through color and finish options?</summary><p>Yes. We’ll discuss the feeling you want and suggest samples to try in your own light.</p></details>
-    <details><summary>What preparation might my surfaces need?</summary><p>It depends on the surface and its condition. We’ll review this together before work begins.</p></details>
-    <details><summary>How should I prepare my space for painting?</summary><p>We’ll share simple steps for clearing and protecting the area when we define the plan.</p></details>
-    <details><summary>What affects the project schedule and cost?</summary><p>Scope, surface condition, preparation, finish choices and timing all play a part.</p></details>
+    <details open><summary>What should I include in a consultation request?</summary><p>Include the spaces or surfaces, your location and your timing. Photos and approximate dimensions help.</p></details>
+    <details><summary>Can you help with color and finish?</summary><p>Yes. We’ll recommend options and samples to test in your space.</p></details>
+    <details><summary>What preparation might my surfaces need?</summary><p>It depends on the surface and its condition. We’ll confirm it before work begins.</p></details>
+    <details><summary>How should I prepare my space for painting?</summary><p>We’ll give you clear instructions for clearing and protecting the area.</p></details>
+    <details><summary>What affects the project schedule and cost?</summary><p>Scope, surface condition, preparation, finishes and timing.</p></details>
   </div>
 </section>
 
 <section id="contact" class="contact">
   <div><small>CONTACT ARREAGA PAINTING</small><h2>LET’S TALK PAINT.</h2></div>
-  <p>A project idea, a color question or a space ready for change? Use the form below to start a conversation with Arreaga Painting.</p>
+  <p>Have a project or a question? Use the form below to get started.</p>
   <span class="arrow"><svg class="ar ar-se" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
 </section>
 
 <section id="consultation" class="pad dark request">
   <div class="invite">
     <p class="label light">Request a consultation</p>
-    <h2 class="on-dark s76">Your next<br>chapter<br>starts here.</h2>
-    <p class="body light">Tell us a little about your space and what you have in mind. We’ll use your details to begin a focused project conversation.</p>
+    <h2 class="on-dark s76">Start your<br>project<br>today.</h2>
+    <p class="body light">Tell us about your space and what you need. We’ll follow up to discuss the project.</p>
     <ul>
-      <li>Your vision and the surfaces involved</li>
-      <li>Color, finish and preparation options</li>
-      <li>Project scope and preferred timing</li>
+      <li>Spaces and surfaces involved</li>
+      <li>Color, finish and preparation</li>
+      <li>Scope and timing</li>
     </ul>
-    <p class="body light sm">Just have a question? Choose “General inquiry” in the form. You don’t need a finished plan to get in touch.</p>
+    <p class="body light sm">Just have a question? Choose “General inquiry”. No finished plan needed.</p>
   </div>
-  <form onsubmit="event.preventDefault();this.querySelector('button').textContent='Thank you — we’ll be in touch'">
+  <form onsubmit="event.preventDefault();var m='Thank you. We’ll be in touch.';this.querySelector('button').textContent=window.__t?window.__t(m):m">
     <h3>TELL US ABOUT YOUR PROJECT.</h3>
     <small>Fields marked * are required.</small>
     <div class="row">
@@ -221,12 +284,12 @@
         <select><option value="">Select a timeframe</option><option>As soon as possible</option><option>Within 1–2 months</option><option>In 3–6 months</option><option>Just exploring</option></select>
       </label>
     </div>
-    <small>Not sure where to start? Select General inquiry.</small>
+    <small>Not sure? Select General inquiry.</small>
     <label>Project details *<textarea required rows="4" placeholder="Which spaces or surfaces would you like to refresh? Share your ideas, approximate scope or any questions."></textarea></label>
-    <label class="consent"><input type="checkbox" required> I agree to be contacted about my inquiry. My details will be used to discuss this request.</label>
+    <label class="consent"><input type="checkbox" required> I agree to be contacted about this inquiry.</label>
     <div class="submit">
       <button class="btn" type="submit">Request a consultation <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></button>
-      <small>A conversation first.<br>No need to commit to a scope.</small>
+      <small>No obligation.<br>We’ll follow up to discuss your project.</small>
     </div>
   </form>
 </section>
@@ -242,12 +305,12 @@
 
 <footer>
   <div class="foot">
-    <div class="brand"><img src="assets/logo.png" alt="Arreaga Painting"><b>A FRESH FINISH.<br>A NEW PERSPECTIVE.</b></div>
+    <div class="brand"><img src="assets/logo.png" alt="Arreaga Painting"><b>QUALITY FINISHES.<br>RELIABLE SERVICE.</b></div>
     <nav><a href="#home">Home</a><a href="#about">About</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#contact">Contact</a></nav>
     <a class="top" href="#home">Back to top <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
   </div>
   <hr>
-  <div class="notes"><span>Arreaga Painting</span><span>Architectural imagery shown for inspiration. Project concepts are illustrative.</span></div>
+  <div class="notes"><span>Arreaga Painting</span><span>Project photos by Arreaga Painting. Other imagery is shown for inspiration.</span></div>
 </footer>
 
 <script>
@@ -318,6 +381,7 @@ return function(){io.disconnect();parents.forEach(function(p){delete p.__rvi});i
 if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 var h=document.querySelector('.hero-img'),w=document.createElement('div');
 w.className='rvwall';h.appendChild(w);
+w.addEventListener('animationend',function(){w.remove()});   // don't leave a composited layer over the video
 var io=new window.IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){w.classList.add('go');io.disconnect()}})},{threshold:.4});
 io.observe(h);
 return function(){io.disconnect();w.remove()};
@@ -394,51 +458,6 @@ return function(){window.removeEventListener('resize',fit);box.remove();story.st
 })(document,window);
 </script>
 <script>
-/* Colour palette field for the consultation form (applied from design review). Uses spans, not buttons: the form's own
-   submit handler edits the first <button> in the form. */
-(function(document,window){
-var form=document.querySelector('form'),ta=form&&form.querySelector('textarea');
-if(!form||!ta)return function(){};
-var anchor=ta.closest('label');
-var P=[['Warm White','#F4EFE6'],['Linen','#E6DCCB'],['Greige','#C9BFAF'],['Taupe','#9C8F80'],['Mist','#DDE2E3'],['Soft Grey','#B9BEBE'],['Slate','#5E6A70'],['Charcoal','#353737'],['Sage','#9BAA95'],['Sea Blue','#6F8FA3'],['Navy','#2B3A52'],['Terracotta','#B9674A']];
-function rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
-function lum(h){var c=rgb(h);return (0.299*c[0]+0.587*c[1]+0.114*c[2])/255}
-function closest(h){var c=rgb(h),best=P[0],bd=1e12;P.forEach(function(p){var q=rgb(p[1]),d=Math.pow(c[0]-q[0],2)+Math.pow(c[1]-q[1],2)+Math.pow(c[2]-q[2],2);if(d<bd){bd=d;best=p}});return best}
-// note: spans, not buttons. The form's own submit handler edits the first button in the form.
-var wrap=document.createElement('div');wrap.className='pal-field';
-wrap.innerHTML='<div class="pal-hd"><b>Colour you have in mind</b><span>Optional</span></div>'+
- '<div class="pal-grid" role="radiogroup" aria-label="Colour you have in mind">'+
- P.map(function(p){return '<span class="pal-sw" role="radio" tabindex="0" aria-checked="false" aria-label="'+p[0]+'" title="'+p[0]+'" data-h="'+p[1]+'" data-n="'+p[0]+'" style="background:'+p[1]+';color:'+(lum(p[1])>0.6?'#141414':'#fff')+'"></span>'}).join('')+
- '<label class="pal-custom" title="Pick any colour"><span class="pal-plus" aria-hidden="true">+</span><input type="color" value="#C9BFAF" aria-label="Pick your own colour"></label></div>'+
- '<div class="pal-sel" aria-live="polite"><i class="pal-chip"></i><span class="pal-name">No colour chosen yet</span><span class="pal-clear" role="button" tabindex="0" hidden>Clear</span></div>'+
- '<p class="pal-note">Choose a swatch or pick your own. We will find the closest match when we talk.</p>'+
- '<input type="hidden" name="colour_hex"><input type="hidden" name="colour_name">';
-anchor.parentNode.insertBefore(wrap,anchor);
-var sws=[].slice.call(wrap.querySelectorAll('.pal-sw')),custom=wrap.querySelector('.pal-custom'),picker=custom.querySelector('input'),
-    chip=wrap.querySelector('.pal-chip'),nm=wrap.querySelector('.pal-name'),clr=wrap.querySelector('.pal-clear'),
-    hex=wrap.querySelector('input[name=colour_hex]'),hname=wrap.querySelector('input[name=colour_name]');
-function pick(h,n,isCustom){
-  sws.forEach(function(s){s.setAttribute('aria-checked',(!isCustom&&s.getAttribute('data-h')===h)?'true':'false')});
-  custom.classList.toggle('on',!!isCustom);
-  if(isCustom)custom.style.setProperty('--c',h);
-  chip.style.background=h;
-  var c=closest(h)[0];
-  nm.textContent=isCustom?('Custom '+h.toUpperCase()+' · closest match: '+c):(n+' · '+h.toUpperCase());
-  hex.value=h.toUpperCase();hname.value=isCustom?(c+' (custom '+h.toUpperCase()+')'):n;
-  clr.hidden=false;
-}
-function reset(){
-  sws.forEach(function(s){s.setAttribute('aria-checked','false')});
-  custom.classList.remove('on');chip.style.background='';nm.textContent='No colour chosen yet';hex.value='';hname.value='';clr.hidden=true;
-}
-function onClick(e){var s=e.target.closest('.pal-sw');if(s){pick(s.getAttribute('data-h'),s.getAttribute('data-n'),false);return}if(e.target.closest('.pal-clear'))reset()}
-function onKey(e){if(e.key!=='Enter'&&e.key!==' ')return;var t=e.target;if(t.classList.contains('pal-sw')||t.classList.contains('pal-clear')){e.preventDefault();t.click()}}
-function onPick(){pick(picker.value,'',true)}
-wrap.addEventListener('click',onClick);wrap.addEventListener('keydown',onKey);picker.addEventListener('input',onPick);
-return function(){wrap.remove()};
-})(document,window);
-</script>
-<script>
 /* Industrial commercial look (applied from design review): a second call button in the header (wide screens only)
    and two buttons in the red call-to-action band. The styling itself lives in style.css under html.drl. */
 (function(document){
@@ -456,5 +475,30 @@ return function(){wrap.remove()};
   }
 })(document);
 </script>
+<script>
+/* Hero background video. The poster image underneath is the fallback: it is all that shows for visitors who prefer
+   reduced motion, have Data Saver on, can't autoplay (e.g. iOS Low Power Mode) or lose the connection.
+   Phones get a smaller file; the video pauses while the hero is off screen. */
+(function(){
+  var v=document.querySelector('.herovideo');
+  if(!v)return;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var save=navigator.connection&&navigator.connection.saveData;
+  if(reduce||save)return;
+  var small=window.matchMedia&&window.matchMedia('(max-width: 800px)').matches;
+  v.muted=true;v.setAttribute('muted','');
+  function shown(on){v.classList.toggle('on',on);v.parentNode.classList.toggle('vplaying',on)}
+  v.addEventListener('playing',function(){shown(true)});
+  v.addEventListener('error',function(){shown(false)});
+  v.addEventListener('emptied',function(){shown(false)});
+  v.src=small?'assets/hero-sm.mp4':'assets/hero.mp4';
+  function play(){var q=v.play();if(q&&q.catch)q.catch(function(){})}
+  play();
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)play();else v.pause()})},{threshold:0}).observe(v.parentNode);
+  }
+})();
+</script>
+<script src="lang-es.js"></script>
 </body>
 </html>

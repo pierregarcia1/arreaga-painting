@@ -32,8 +32,8 @@ A single-page marketing site for Arreaga Painting (residential and commercial pa
 .
 ├── index.html              the website (markup + small inline scripts)
 ├── style.css               all site styles, including every applied review change
-├── assets/                 7 PNGs: logo.png, interior.png, brush.png, project1.png,
-│                           project2.png, cabinet.png, wall.png
+├── assets/                 images (logo.png, brush.png, project1.png, project2.png, cabinet.png, wall.png,
+│                           interior.png, hero-poster.jpg) and the hero videos hero.mp4 / hero-sm.mp4
 ├── board.html              the design board (loads the site in two resizable iframes)
 ├── changes.js              pending Design review suggestions (currently empty)
 ├── changes.archive*.js     applied or declined review rounds (see History)
@@ -49,6 +49,7 @@ Generated or local-only (not in the repo):
 dist/                       shareable single-file builds: arreaga-painting-site.html,
                             arreaga-painting-design-board.html, arreaga-painting-preview.html
 *.before-*.css|html         snapshots taken before each round of changes
+assets/Arreaga_video.mp4    the 412 MB original promo video, plus raw photos (.HEIC, large .jpg): git-ignored
 .claude/launch.json         preview server config for the Claude desktop app
 ```
 
@@ -101,6 +102,7 @@ Media queries use `min-width: 800.02px` and `600.02px` on purpose: at fractional
 
 ### Header
 
+- **Logo:** the logo image has a lot of empty margin, so it is shown oversized inside a clipping window as tall as the header (`html.biglogo` in `style.css`): artwork about 213px wide on desktop, 191px on tablet widths, 163px on phones, where the bar is 104px tall.
 - **Desktop:** sticky, fixed 120px height (it does *not* resize on scroll; resizing caused a flicker loop and a visible sliver). A shadow appears after 60px of scrolling (removed again below 10px, a deliberate dead zone). A red indicator slides under the nav link of the section you're in (scroll-spy).
 - **Hide on scroll:** the header slides away while scrolling down past 240px and returns on scroll up.
 - **Mobile (960px and below):** logo centred in a 96px bar, a round phone button on the left, hamburger on the right. The menu is a compact floating card: the current section is grey with a red marker bar, hover and keyboard focus are red, and a red "Request a consultation" button closes it. It closes on link tap, outside tap or Esc.
@@ -124,6 +126,20 @@ Fields: full name, email, phone (optional), project location, service, preferred
 The **colour palette** offers 12 swatches (Warm White, Linen, Greige, Taupe, Mist, Soft Grey, Slate, Charcoal, Sage, Sea Blue, Navy, Terracotta) and a pick-your-own colour wheel; a custom pick is matched to the nearest swatch name. It submits two hidden fields: `colour_hex` and `colour_name`.
 
 Submitting currently only swaps the button text to "Thank you". There is no backend (see Known gaps).
+
+### Hero video
+
+The photo behind "Commercial painting." is a background video (`<video class="herovideo">` inside `.hero-img`). Two web versions were made from the original 1920x1080 promo (`assets/Arreaga_video.mp4`, 412 MB, not in git) with ffmpeg: the first 20 seconds, with the black bars and the burned-in logo in the bottom-right cropped away, no audio.
+
+| File | Used for | Size |
+|---|---|---|
+| `assets/hero.mp4` | screens wider than 800px (1920x766) | 2.9 MB |
+| `assets/hero-sm.mp4` | phones and portrait tablets, 800px and below (960x384) | 0.8 MB |
+| `assets/hero-poster.jpg` | the still image shown first, and the fallback | 0.2 MB |
+
+A script at the end of `index.html` picks the file, plays it muted, looping and inline (needed for iOS), fades it in once it is actually playing, and pauses it when the hero is off screen. People who prefer reduced motion or have Data Saver on get only the still image, and so does anyone whose device blocks autoplay (for example iOS Low Power Mode). To change the clip, re-encode from the original, for example (ffmpeg): `ffmpeg -ss 0 -t 20 -i assets/Arreaga_video.mp4 -vf "crop=1920:766:0:34" -c:v libx264 -preset slow -crf 28 -pix_fmt yuv420p -r 24 -an -movflags +faststart assets/hero.mp4`, and the same with `,scale=960:-2` and `-crf 29` for `hero-sm.mp4`.
+
+The video is **not** inlined in the single-file builds: `python tools/build.py pages` copies both files into `docs/assets/` next to the published page, while the files in `dist/` show the still poster instead.
 
 ### Map
 
@@ -181,7 +197,7 @@ The review panel under the board lets you preview proposed changes live, before 
 2. Reload the board. Each card has a toggle and an **eye** button that scrolls the frames to where the change applies. **Apply all major**, **Apply all** and **Clear** are in the panel header.
 3. When happy, ask to apply the selection: the selected CSS is appended to `style.css` (in review order, so later rules win exactly as in the preview), JS blocks go into a script at the end of `index.html`, the round is archived to `changes.archive-*.js`, and `changes.js` is reset to an empty list.
 
-Rounds so far: visual and UX (15 applied), motion (10 applied), colour palette (applied), commercial-first rewrite (declined; the copy stays residential and commercial), industrial commercial look (applied, styling only). Declined items are kept in the archives.
+Rounds so far: visual and UX (15 applied), motion (10 applied), colour palette (applied), commercial-first rewrite (declined; the copy stays residential and commercial), industrial commercial look (applied, styling only), bigger header logo (applied). Declined items are kept in the archives.
 
 ---
 
@@ -245,6 +261,7 @@ Don't send the HTML files as attachments: iOS previews in Mail, Messages and Fil
 
 - **Phone number is a placeholder** (`+1 555 010 0000`, a reserved fictional number). Replace it with the real one in both the header phone button and the hero phone link (`href` and the visible text).
 - **The consultation form has no backend.** Submit only changes the button text. Wire it to a form service or API; the colour choice will arrive as `colour_hex` and `colour_name`.
+- **The hero video and the other new media:** the video plays in the hero but shows other businesses' signage and a worker's shirt with a phone number. The extra files added to `assets/` (a Britton Building photo and two .HEIC photos) are not used on the site yet; .HEIC isn't a web format and needs converting.
 - **No real "before" photo** for the cabinet slider (it shows a simulated desaturated copy).
 - **No separate pages or links for services and projects.** The service cards and project captions aren't links (their arrows are hidden on purpose), and every call to action goes to the form.
 - **Fonts need internet** (Google Fonts). Offline, system fonts are used.
@@ -263,10 +280,12 @@ Each round of changes left a snapshot so it can be reverted by copying the file 
 | `style.before-palette.css`, `index.before-palette.html` | the colour palette |
 | `style.before-arrows.css`, `index.before-arrows.html` | replacing arrow characters with SVG |
 | `style.before-industrial.css`, `index.before-industrial.html` | the industrial commercial look |
+| `style.before-biglogo.css`, `index.before-biglogo.html` | the bigger header logo |
 | `changes.archive.js` | review round 1: 20 visual and UX suggestions (15 applied) |
 | `changes.archive-motion.js` | review round 2: 12 motion suggestions (10 applied) |
 | `changes.archive-palette.js` | review round 3: the colour palette (applied) |
 | `changes.archive-commercial.js` | review round 4: a commercial-first version of the whole site, as a toggle (declined, not applied) |
 | `changes.archive-industrial.js` | review round 5: the industrial commercial look (applied; the section-label restyle was removed before applying) |
+| `changes.archive-logo.js` | review round 6: the bigger header logo (applied) |
 
 Git history: the page was first published as a single built file (commits "Add RREAGA Painting site", "Slim ink scrollbar", "Replace arrow characters with inline SVG and centre the mobile footer"); the repo was then restructured into the full source repository described above, with Pages pointed at `docs/`.

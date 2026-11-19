@@ -111,6 +111,13 @@ figcaption i{font-style:normal;font-size:26px}
 .continue{display:flex;justify-content:space-between;border-top:1px solid #414141;padding-top:18px;font-size:14px;color:var(--soft)}
 .continue a{color:#fff;font-weight:600}
 
+/* project photo cards: three across on desktop, two plus one on tablets, one column on phones */
+.gallery.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:start}
+.gallery.trio figure{width:auto;padding-top:0}
+.gallery.trio figure img{height:340px}
+@media(max-width:1100px){.gallery.trio{grid-template-columns:1fr 1fr;gap:24px}.gallery.trio figure:last-child{grid-column:1/-1}.gallery.trio figure img{height:300px}.gallery.trio figure:last-child img{height:360px}}
+@media(max-width:800px){.gallery.trio{grid-template-columns:1fr}.gallery.trio figure img,.gallery.trio figure:last-child img{height:260px}}
+
 /* story */
 .story{display:flex;height:580px}
 .story img{width:720px;height:100%;object-fit:cover}
@@ -213,8 +220,8 @@ footer{background:#fff;padding:40px 72px 32px;display:flex;flex-direction:column
   .hero-msg,.lead,.photo,.guide-text,.faq-intro,.invite,.contact>div,figure.big,figure.small{width:auto}
   h1{font-size:80px}h2{font-size:48px}.s76{font-size:56px}
 }
-/* hamburger header: the full nav + CTA no longer fits below ~960px */
-@media(max-width:960px){
+/* hamburger header: the full nav, CTA and language button no longer fit below ~1024px */
+@media(max-width:1024px){
   .header{height:96px;padding:0 20px}
   .header{overflow:visible}   /* let the dropdown menu show below the bar */
   .logo{height:96px;width:112px}
@@ -506,26 +513,6 @@ article:hover h3 em{color:#141414;transform:translateX(4px)}
 
 
 /* ===== Colour palette in the consultation form (applied from design review) ===== */
-.pal-field{display:flex;flex-direction:column;gap:12px}
-.pal-hd{display:flex;justify-content:space-between;align-items:baseline;font-size:12px}
-.pal-hd b{font-weight:600}
-.pal-hd span{color:var(--mute);font-weight:400}
-.pal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:10px}
-.pal-sw,.pal-custom{position:relative;display:block!important;aspect-ratio:1;min-height:44px;border-radius:10px;border:1px solid rgba(20,20,20,.18);cursor:pointer;padding:0;transition:transform .2s cubic-bezier(.2,.7,.1,1),box-shadow .2s}
-.pal-sw:hover,.pal-custom:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(20,20,20,.14)}
-.pal-sw[aria-checked=true],.pal-custom.on{outline:2px solid var(--red);outline-offset:3px}
-.pal-sw[aria-checked=true]:after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;font:700 18px Inter,sans-serif}
-.pal-sw:focus-visible,.pal-custom:focus-within{outline:3px solid var(--ink);outline-offset:3px}
-.pal-custom{background:conic-gradient(from 0deg,#e5484d,#f5a524,#e9e143,#46c35f,#3aa7e5,#8a63d2,#e5484d);overflow:hidden}
-.pal-custom.on{background:var(--c)}
-.pal-plus{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:600 22px Inter,sans-serif;text-shadow:0 1px 3px rgba(0,0,0,.5);pointer-events:none}
-form .pal-custom input[type=color]{position:absolute;inset:0;width:100%;height:100%;min-height:0;padding:0;border:0;opacity:0;cursor:pointer}
-.pal-sel{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 12px;font-size:13px;background:var(--bg);border:1px dashed #b9b9b5;border-radius:8px}
-.pal-chip{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid rgba(20,20,20,.2);background:repeating-conic-gradient(#e7e7e4 0 25%,#fff 0 50%) 0 0/10px 10px}
-.pal-name{flex:1;color:var(--ink)}
-.pal-clear{color:var(--red);font:600 12px Inter,sans-serif;cursor:pointer;padding:8px}
-.pal-clear[hidden]{display:none}
-.pal-note{font-size:12px;line-height:1.5;color:var(--mute)}
 
 
 /* ===== Industrial commercial look (applied from design review). Everything is scoped under html.drl, which index.html sets. ===== */
@@ -554,8 +541,8 @@ html.drl .btn{border-radius:3px;font-size:15px;font-weight:500;letter-spacing:0;
 html.drl .btn:hover{background:#6f130d}
 html.drl .header .btn{font-size:15px;height:48px;padding:0 22px;gap:10px}
 html.drl .rvcall svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:1280px){html.drl .header .rvcall{display:none}}
-@media(min-width:961px){html.drl nav#nav{font-size:15px;font-weight:500;text-transform:uppercase;letter-spacing:.03em;gap:26px}}
+@media(max-width:1400px){html.drl .header .rvcall{display:none}}
+@media(min-width:1025px){html.drl nav#nav{font-size:15px;font-weight:500;text-transform:uppercase;letter-spacing:.03em;gap:26px}}
 html.drl .hero{display:block;position:relative;height:auto;min-height:620px;padding:0 72px;overflow:hidden}
 html.drl .hero-msg{position:relative;z-index:2;width:min(780px,100%);padding:104px 0 112px;gap:26px}
 html.drl .hero-img{position:absolute;inset:0;z-index:0;flex:none;min-height:0;height:auto;margin:0}
@@ -617,3 +604,77 @@ html.drl footer hr{background:#2d3a4a}
 html.drl .brand img{background:#fff;padding:6px 10px;border-radius:3px;width:150px;height:112px}
 @media(max-width:1100px){html.drl .hero{padding:0 32px}html.drl .hero-msg{padding:80px 0 88px}html.drl .caption{right:32px}html.drl .contact{padding:56px 32px}}
 @media(max-width:800px){html.drl .hero{padding:0 20px;min-height:0}html.drl .hero-msg{padding:64px 0 72px}html.drl .hero-img{height:auto;margin:0}html.drl .caption{display:none}html.drl .contact{padding:48px 20px}html.drl .brand img{width:130px;height:98px}html.drl .submit{align-items:stretch}}
+
+
+/* ===== Bigger header logo (applied from design review). Scoped under html.biglogo, which index.html sets. ===== */
+html.biglogo .header>a:first-child{display:flex;align-items:center;height:100%;overflow:hidden;line-height:0;flex:none}
+html.biglogo .logo{display:block;height:197px;width:229px;max-width:none;flex:none}
+@media(max-width:1100px){html.biglogo .logo{height:176px;width:205px}}
+@media(max-width:1024px){html.biglogo .header{height:104px}html.biglogo .logo{height:150px;width:175px}html.biglogo [id]{scroll-margin-top:112px}}
+
+
+/* hero background video: sits above the poster image and fades in once it is actually playing */
+.hero-img .herovideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease;pointer-events:none}
+.hero-img .herovideo.on{opacity:1}
+.hero-img.vplaying>img{visibility:hidden;will-change:auto}   /* the poster is only a fallback; while the video plays it is not painted at all */
+.hero-img{isolation:isolate}
+@media(prefers-reduced-motion:reduce){.hero-img .herovideo{display:none}}
+
+
+/* language switch: a pill in the header; on small screens a compact "ES" pill beside the hamburger, plus a row in the menu */
+.langbtn,.nav-lang{font-family:inherit;cursor:pointer}
+.langbtn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border:1px solid var(--line);border-radius:3px;background:#fff;color:var(--ink);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;transition:border-color .15s,color .15s}
+.langbtn:hover,.langbtn:focus-visible{border-color:var(--red);color:var(--red)}
+.langbtn svg,.nav-lang svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.langbtn .sh{display:none}
+.nav-lang{display:none}
+@media(max-width:1024px){
+  .header .langbtn{position:absolute;right:62px;top:50%;transform:translateY(-50%);height:36px;width:40px;padding:0;justify-content:center;gap:0;font-size:13px}
+  .header .langbtn svg,.header .langbtn .lf{display:none}
+  .header .langbtn .sh{display:inline}
+  .header nav#nav .nav-lang{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:0 14px;border:0;border-radius:10px;background:none;color:var(--ink);font-size:17px;font-weight:500;text-align:left}
+  .header nav#nav .nav-lang svg{width:18px;height:18px}
+  .header nav#nav .nav-lang:hover,.header nav#nav .nav-lang:focus-visible{background:rgba(187,23,54,.09);color:var(--red)}
+}
+@media(max-width:378px){.header .langbtn{display:none}}   /* narrower than this the pill would touch the logo; the menu has the switch */
+
+/* language switch must not change any sizes: elements take the width of the longer language, text centred */
+@media(min-width:1025px){
+  .header nav>a{text-align:center;justify-content:center;box-sizing:border-box}
+  .header nav>a:nth-of-type(1){min-width:49px}.header nav>a:nth-of-type(2){min-width:86px}.header nav>a:nth-of-type(3){min-width:83px}.header nav>a:nth-of-type(4){min-width:92px}.header nav>a:nth-of-type(5){min-width:84px}
+  .langbtn{min-width:121px;justify-content:center}
+}
+.hero .btn{min-width:283px;justify-content:center}
+.hero .actions .plain{min-width:230px;justify-content:center}
+@media(max-width:420px){.hero .lead{min-height:86px}}
+.overview small{min-width:174px}
+.overview span{text-align:center}
+.overview span:nth-of-type(1){min-width:160px}.overview span:nth-of-type(2){min-width:164px}.overview span:nth-of-type(3){min-width:201px}.overview span:nth-of-type(4){min-width:203px}
+
+/* trusted suppliers */
+.suppliers{background:#fff;text-align:center;padding-top:72px;padding-bottom:72px}
+.suppliers .label{justify-content:center}
+.suppliers h2{font-size:28px;margin:8px auto 36px;max-width:720px}
+.logos{list-style:none;margin:0 auto;padding:0;display:flex;justify-content:center;align-items:center;gap:40px 72px;flex-wrap:wrap;max-width:1000px}
+.logos li{display:flex;align-items:center;justify-content:center;height:100px;min-width:200px}
+.logos img{height:80px;width:auto;max-width:100%;object-fit:contain}
+.logos li:nth-child(3) img{height:100px}
+@media(max-width:800px){.suppliers{padding-top:48px;padding-bottom:48px}.suppliers h2{font-size:22px;margin-bottom:24px}.logos{gap:20px 40px}.logos li{height:80px;min-width:150px}.logos img{height:60px}.logos li:nth-child(3) img{height:80px}}
+
+/* who we serve */
+.serve h2{margin:8px 0 36px}
+.serve-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.serve-grid li{padding:26px 24px;border-top:3px solid var(--red);background:#fff;font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink)}
+@media(max-width:800px){.serve-grid{grid-template-columns:1fr 1fr;gap:12px}.serve-grid li{padding:20px 16px;font-size:16px}.serve-grid li:last-child{grid-column:1/-1}}
+
+/* our services */
+.ourserv{background:#fff}
+.ourserv h2{margin:8px 0 40px}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.svc{border-top:3px solid var(--red);background:#f4f6f9;padding:26px 24px 28px}
+.svc h3{font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin:0 0 16px}
+.svc ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.svc li{position:relative;padding-left:16px;font-size:15.5px;line-height:1.45;color:var(--ink)}
+.svc li:before{content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;background:var(--red)}
+@media(max-width:1100px){.svc-grid{grid-template-columns:1fr 1fr;gap:20px}}
+@media(max-width:800px){.svc-grid{grid-template-columns:1fr;gap:14px}}
