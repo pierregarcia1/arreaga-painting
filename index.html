@@ -302,7 +302,7 @@
     <address>4200 Perimeter Center Dr #245<br>Oklahoma City, OK 73112</address>
     <a class="red-link" href="https://www.google.com/maps/dir/?api=1&destination=4200%20Perimeter%20Center%20Dr%20%23245%2C%20Oklahoma%20City%2C%20OK%2073112" target="_blank" rel="noopener">Get directions <svg class="ar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
   </div>
-  <iframe class="map" title="Map showing Arreaga Painting at 4200 Perimeter Center Dr #245, Oklahoma City, OK 73112" src="https://www.google.com/maps?q=4200%20Perimeter%20Center%20Dr%20%23245%2C%20Oklahoma%20City%2C%20OK%2073112&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  <div class="mapclip"><iframe class="map" title="Map showing Arreaga Painting at 4200 Perimeter Center Dr #245, Oklahoma City, OK 73112" src="https://www.google.com/maps?q=4200%20Perimeter%20Center%20Dr%20%23245%2C%20Oklahoma%20City%2C%20OK%2073112&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
 </section>
 
 <footer>
@@ -525,6 +525,31 @@ document.body.insertBefore(a,document.body.firstChild);
 return function(){a.remove()};
 })(document,window);
 
+</script>
+<script>
+// v-directions-menu — Directions: pick-an-app menu
+(function(document,window){
+var card=document.querySelector('.mapcard'),orig=card&&card.querySelector('.red-link');
+if(!orig)return function(){};
+var T=function(s){return window.__t?window.__t(s):s};
+var addr=encodeURIComponent('4200 Perimeter Center Dr #245, Oklahoma City, OK 73112');
+var wrap=document.createElement('span');wrap.className='dirwrap';
+orig.parentNode.insertBefore(wrap,orig);wrap.appendChild(orig);
+var menu=document.createElement('div');menu.className='dirmenu';menu.hidden=true;menu.setAttribute('role','menu');
+menu.innerHTML='<a role="menuitem" target="_blank" rel="noopener" href="'+orig.href+'">'+T('Google Maps')+'</a><a role="menuitem" target="_blank" rel="noopener" href="https://maps.apple.com/?daddr='+addr+'">'+T('Apple Maps')+'</a>';
+wrap.appendChild(menu);
+var oldHref=orig.getAttribute('href'),oldTarget=orig.getAttribute('target');
+orig.setAttribute('aria-haspopup','true');orig.setAttribute('aria-expanded','false');orig.setAttribute('href','#');orig.removeAttribute('target');
+function close(){menu.hidden=true;orig.setAttribute('aria-expanded','false')}
+function toggle(e){e.preventDefault();var o=menu.hidden;menu.hidden=!o;orig.setAttribute('aria-expanded',o?'true':'false');if(o)menu.querySelector('a').focus()}
+function out(e){if(!wrap.contains(e.target))close()}
+function key(e){if(e.key==='Escape'&&!menu.hidden){close();orig.focus()}}
+menu.addEventListener('click',close);
+orig.addEventListener('click',toggle);document.addEventListener('click',out);document.addEventListener('keydown',key);
+return function(){orig.removeEventListener('click',toggle);document.removeEventListener('click',out);document.removeEventListener('keydown',key);
+orig.setAttribute('href',oldHref);if(oldTarget)orig.setAttribute('target',oldTarget);orig.removeAttribute('aria-haspopup');orig.removeAttribute('aria-expanded');
+wrap.parentNode.insertBefore(orig,wrap);wrap.remove()};
+})(document,window);
 </script>
 <script src="lang-es.js"></script>
 </body>

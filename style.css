@@ -840,3 +840,18 @@ html.drl .brand img{background:none;padding:0;border-radius:0}
 html.drl footer .brand img{width:210px;height:158px}
 @media(max-width:1100px){html.drl footer .brand img{width:180px;height:135px}}
 @media(max-width:800px){html.drl footer .brand img{width:170px;height:128px}}
+
+
+/* v-directions-menu — Directions: pick-an-app menu */
+.mapcard{overflow:visible}
+.mapcard .dirwrap{position:relative;display:inline-block}
+.mapcard .dirmenu{position:absolute;left:0;top:calc(100% + 8px);z-index:5;min-width:200px;display:flex;flex-direction:column;background:#fff;border:2px solid #000;box-shadow:0 12px 30px rgba(23,32,43,.25)}
+.mapcard .dirmenu[hidden]{display:none}
+.mapcard .dirmenu a{display:flex;align-items:center;min-height:48px;padding:0 18px;color:#141414;font-weight:700;font-size:15px;text-decoration:none;text-transform:uppercase;letter-spacing:.04em}
+.mapcard .dirmenu a+a{border-top:1px solid #d6dbe1}
+.mapcard .dirmenu a:hover,.mapcard .dirmenu a:focus-visible{background:#bb1736;color:#fff;outline:none}
+
+/* map: shift Google's place card (blue "Open in Maps" button) up out of view. Only the top is cropped, so the satellite toggle (bottom left), zoom controls, Google logo and attribution all stay visible */
+.mapclip{position:absolute;inset:0;overflow:hidden}
+.mapband .map{position:absolute;top:-125px;left:0;width:100%;height:calc(100% + 125px)}
+@media(max-width:800px){.mapclip{position:relative;height:320px;inset:auto}.mapband .map{height:calc(100% + 125px)}}

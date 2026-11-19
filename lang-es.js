@@ -240,6 +240,8 @@
     "Our location": "Nuestra ubicación",
     "Map showing Arreaga Painting at 4200 Perimeter Center Dr #245, Oklahoma City, OK 73112": "Mapa que muestra Arreaga Painting en 4200 Perimeter Center Dr #245, Oklahoma City, OK 73112",
     "Visit us": "Visítenos",
+    "Google Maps": "Google Maps",
+    "Apple Maps": "Apple Maps",
     "Get directions": "Cómo llegar",
     "QUALITY FINISHES.": "ACABADOS DE CALIDAD.",
     "RELIABLE SERVICE.": "SERVICIO CONFIABLE.",
