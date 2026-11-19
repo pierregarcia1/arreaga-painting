@@ -478,8 +478,6 @@ figure,.story,.study{overflow:hidden}   /* a photo mid-zoom must not widen the p
 /* m-card-hover — Service and process card hover */
 article{position:relative;transition:transform .35s cubic-bezier(.2,.7,.1,1)}
 article:hover{transform:translateY(-4px)}
-article:after{content:"";position:absolute;left:0;top:-1px;height:2px;width:100%;background:#bb1736;transform:scaleX(0);transform-origin:0 50%;transition:transform .5s cubic-bezier(.2,.7,.1,1)}
-article:hover:after{transform:scaleX(1)}
 article h3 em{transition:color .3s,transform .3s}
 article:hover h3 em{color:#141414;transform:translateX(4px)}
 .steps>div{transition:transform .35s cubic-bezier(.2,.7,.1,1)}
@@ -825,3 +823,7 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
 .serve-grid li:hover img{transform:scale(1.04)}
 @media(max-width:800px){.serve-grid li{aspect-ratio:4/3}.serve-grid li span{font-size:15px;padding:10px 12px;margin-bottom:12px}.serve-grid li:last-child{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){.serve-grid li img{transition:none}.serve-grid li:hover img{transform:none}}
+
+/* v-hero-swap-buttons — Hero: Explore our services before the phone button */
+.hero .actions .plain{order:1}
+.hero .actions .phone-link{order:2}

@@ -200,7 +200,7 @@
     "Fields marked * are required.": "* indica campo obligatorio.",
     "Full name *": "Nombre completo *",
     "Email address *": "Correo electrónico *",
-    "Phone number (optional)": "Teléfono (opcional)",
+    "Phone number *": "Teléfono *",
     "Project location *": "Ubicación del proyecto *",
     "I’m interested in *": "Me interesa *",
     "Select a service": "Seleccione un servicio",
