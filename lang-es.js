@@ -244,7 +244,7 @@
     "QUALITY FINISHES.": "ACABADOS DE CALIDAD.",
     "RELIABLE SERVICE.": "SERVICIO CONFIABLE.",
     "Back to top": "Volver arriba",
-    "Project photos by Arreaga Painting. Other imagery is shown for inspiration.": "Fotos de proyectos de Arreaga Painting. Las demás imágenes se muestran como inspiración."
+    "Project photos by Arreaga Painting.": "Fotos de proyectos de Arreaga Painting."
   };
 
   /* strings that contain a phone number (which will change) are matched by pattern */

@@ -827,3 +827,16 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
 /* v-hero-swap-buttons — Hero: Explore our services before the phone button */
 .hero .actions .plain{order:1}
 .hero .actions .phone-link{order:2}
+
+/* white footer (the logo no longer needs a white box) and a black border around the map */
+html.drl footer{background:#fff;color:var(--ink)}
+html.drl footer hr{background:var(--line)}
+html.drl .foot nav,html.drl .notes{color:var(--mute)}
+html.drl .foot b,html.drl .top{color:var(--ink)}
+html.drl .brand img{background:none;padding:0;border-radius:0}
+.mapband{border:3px solid #000;box-sizing:border-box}
+
+/* bigger footer logo */
+html.drl footer .brand img{width:210px;height:158px}
+@media(max-width:1100px){html.drl footer .brand img{width:180px;height:135px}}
+@media(max-width:800px){html.drl footer .brand img{width:170px;height:128px}}
