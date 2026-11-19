@@ -855,3 +855,7 @@ html.drl footer .brand img{width:210px;height:158px}
 .mapclip{position:absolute;inset:0;overflow:hidden}
 .mapband .map{position:absolute;top:-125px;left:0;width:100%;height:calc(100% + 125px)}
 @media(max-width:800px){.mapclip{position:relative;height:320px;inset:auto}.mapband .map{height:calc(100% + 125px)}}
+
+/* overview bar: left-align the items; on phones stack them in one tidy column */
+.overview span{text-align:left}
+@media(max-width:800px){.overview{flex-direction:column;align-items:flex-start;gap:12px}.overview small,.overview span{min-width:0}}
