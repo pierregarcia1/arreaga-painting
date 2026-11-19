@@ -6,7 +6,7 @@ A single-page marketing site for Arreaga Painting (residential and commercial pa
 - **Repo:** https://github.com/pierregarcia1/arreaga-painting (full source; GitHub Pages serves the `docs/` folder)
 - **Design source:** https://www.figma.com/design/pLjBaJapATm7s9KUyxKL6z/Arreaga-Painting (desktop 1440px and mobile 390px frames)
 
-> **Before going live for real:** the header phone button dials a fictional placeholder, `tel:+15550100000`. Replace it in `index.html` in two places: the header phone button (`<a class="call">`) and the hero phone link (`<a class="phone-link">`, which also shows the number as text). The consultation form also has no backend yet. See [Known gaps](#known-gaps).
+> **Before going live:** the consultation form has no backend yet. See [Known gaps](#known-gaps).
 
 ---
 
@@ -259,7 +259,7 @@ Don't send the HTML files as attachments: iOS previews in Mail, Messages and Fil
 
 ## Known gaps
 
-- **Phone number is a placeholder** (`+1 555 010 0000`, a reserved fictional number). Replace it with the real one in both the header phone button and the hero phone link (`href` and the visible text).
+- **Phone number** is `(405) 421-8629` (`tel:+14054218629`). It appears in the header call button, the hero phone link, the header `rvcall` button and the red contact band, all in `index.html`.
 - **The consultation form has no backend.** Submit only changes the button text. Wire it to a form service or API; the colour choice will arrive as `colour_hex` and `colour_name`.
 - **The hero video and the other new media:** the video plays in the hero but shows other businesses' signage and a worker's shirt with a phone number. The extra files added to `assets/` (a Britton Building photo and two .HEIC photos) are not used on the site yet; .HEIC isn't a web format and needs converting.
 - **No real "before" photo** for the cabinet slider (it shows a simulated desaturated copy).
