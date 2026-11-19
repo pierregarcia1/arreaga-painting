@@ -168,7 +168,7 @@
 
 <section class="suppliers pad" id="suppliers" aria-label="Trusted suppliers">
   <p class="label">Trusted suppliers</p>
-  <h2>Quality materials from names you know.</h2>
+  <h2>Quality paint from names you know.</h2>
   <ul class="logos">
     <li><img src="assets/Logos/Sherwin_Logo.png" alt="Sherwin-Williams" loading="lazy"></li>
     <li><img src="assets/Logos/Spectrum_Logo.png" alt="Spectrum Paint" loading="lazy"></li>
@@ -364,7 +364,7 @@ return function(){io.disconnect();saved.forEach(function(s){s[0].innerHTML=s[1];
 // m-image-reveal — Photo wipe-in with slow settle
 (function(document,window){
 if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-var imgs=[].slice.call(document.querySelectorAll('.hero-img img,.photo img,figure img,.story>img,.study img'));
+var imgs=[].slice.call(document.querySelectorAll('.photo img,figure img,.story>img,.study img'));
 imgs.forEach(function(i){i.classList.add('rvi')});
 void document.body.offsetWidth;
 // observe each image's container: a fully clipped image would never report as visible
@@ -374,17 +374,6 @@ var io=new window.IntersectionObserver(function(es){es.forEach(function(e){
 })},{threshold:.2});
 imgs.forEach(function(i){var p=i.parentNode;if(!p.__rvi){p.__rvi=[];parents.push(p);io.observe(p)}p.__rvi.push(i)});
 return function(){io.disconnect();parents.forEach(function(p){delete p.__rvi});imgs.forEach(function(i){i.classList.remove('rvi','rvi-in')})};
-})(document,window);
-
-// m-hero-wall-wipe — Hero "fresh coat" wall wipe
-(function(document,window){
-if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-var h=document.querySelector('.hero-img'),w=document.createElement('div');
-w.className='rvwall';h.appendChild(w);
-w.addEventListener('animationend',function(){w.remove()});   // don't leave a composited layer over the video
-var io=new window.IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){w.classList.add('go');io.disconnect()}})},{threshold:.4});
-io.observe(h);
-return function(){io.disconnect();w.remove()};
 })(document,window);
 
 // m-hide-header — Hide header on scroll down, show on scroll up
@@ -422,7 +411,7 @@ return function(){io.disconnect();els.forEach(function(k){k.classList.remove('rv
 // m-parallax — Subtle photo parallax
 (function(document,window){
 if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-var imgs=[].slice.call(document.querySelectorAll('.hero-img img,.photo img')),ticking=false;
+var imgs=[].slice.call(document.querySelectorAll('.photo img')),ticking=false;
 function update(){
   ticking=false;var vh=window.innerHeight;
   imgs.forEach(function(i){
@@ -498,6 +487,42 @@ return function(){window.removeEventListener('resize',fit);box.remove();story.st
     new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)play();else v.pause()})},{threshold:0}).observe(v.parentNode);
   }
 })();
+</script>
+<script>
+/* Design review round: desktop and mobile audit (applied). One block per change. */
+// d-clipped-sections — Stop Color & finish and Cabinet story clipping
+(function(document,window){
+setTimeout(function(){window.dispatchEvent(new Event('resize'))},30);
+return function(){setTimeout(function(){window.dispatchEvent(new Event('resize'))},30)};
+})(document,window);
+
+// d-form-call-card — Phone option and sticky intro beside the form
+(function(document,window){
+var inv=document.querySelector('.invite');
+var a=document.createElement('a');a.className='d-callcard';a.href='tel:+14054218629';
+a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Call (405) 421-8629';
+inv.appendChild(a);
+return function(){a.remove()};
+})(document,window);
+
+// m2-form-autofill — Form: autofill, right keyboards, visible errors
+(function(document,window){
+var f=document.querySelector('#consultation form');if(!f)return function(){};
+var I=f.querySelectorAll('input,select,textarea'),saved=[];
+var spec=[{n:'name',a:'name',c:'words'},{n:'email',a:'email',i:'email',c:'off'},{n:'phone',a:'tel',i:'tel'},{n:'location',a:'postal-code',i:'text',c:'words'}];
+I.forEach(function(e,k){var s=spec[k];var old={};['name','autocomplete','inputmode','enterkeyhint','autocapitalize'].forEach(function(p){old[p]=e.getAttribute(p)});saved.push([e,old]);
+if(s){e.setAttribute('name',s.n);e.setAttribute('autocomplete',s.a);if(s.i)e.setAttribute('inputmode',s.i);if(s.c)e.setAttribute('autocapitalize',s.c);e.setAttribute('enterkeyhint','next')}
+else if(e.tagName==='TEXTAREA'){e.setAttribute('name','details');e.setAttribute('enterkeyhint','done')}});
+return function(){saved.forEach(function(x){for(var p in x[1]){x[1][p]===null?x[0].removeAttribute(p):x[0].setAttribute(p,x[1][p])}})};
+})(document,window);
+
+// d-skip-link — Skip to content link for keyboard users
+(function(document,window){
+var a=document.createElement('a');a.className='d-skip';a.href='#about';a.textContent='Skip to content';
+document.body.insertBefore(a,document.body.firstChild);
+return function(){a.remove()};
+})(document,window);
+
 </script>
 <script src="lang-es.js"></script>
 </body>

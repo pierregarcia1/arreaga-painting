@@ -456,11 +456,6 @@ figure,.story,.study{overflow:hidden}   /* a photo mid-zoom must not widen the p
 
 /* m-hero-wall-wipe — Hero "fresh coat" wall wipe */
 .hero-img{overflow:hidden}
-.rvwall{position:absolute;inset:0;z-index:3;background:#d9d7d0;pointer-events:none;will-change:transform}
-.rvwall:before{content:"";position:absolute;left:-18px;top:0;bottom:0;width:18px;background:#bb1736}
-.rvwall.go{animation:rvwall 1.7s cubic-bezier(.7,0,.2,1) .25s forwards}
-@keyframes rvwall{to{transform:translateX(calc(100% + 20px))}}
-@media (prefers-reduced-motion:reduce){.rvwall{display:none}}
 
 /* m-hide-header — Hide header on scroll down, show on scroll up */
 .header{transition:transform .4s cubic-bezier(.4,0,.2,1),box-shadow .25s}
@@ -547,7 +542,6 @@ html.drl .hero{display:block;position:relative;height:auto;min-height:620px;padd
 html.drl .hero-msg{position:relative;z-index:2;width:min(780px,100%);padding:104px 0 112px;gap:26px}
 html.drl .hero-img{position:absolute;inset:0;z-index:0;flex:none;min-height:0;height:auto;margin:0}
 html.drl .hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-html.drl .rvwall{background:#26303c}   /* the load-time wall wipe is dark so the white headline stays readable */
 html.drl .hero-img:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,32,43,.92),rgba(23,32,43,.72) 52%,rgba(23,32,43,.32))}
 html.drl .caption{z-index:3;left:auto;right:72px;bottom:40px;width:250px;padding:18px}
 html.drl .lead{font-size:18px;max-width:560px;width:auto;color:#e9edf1}
@@ -636,7 +630,6 @@ html.biglogo .logo{display:block;height:197px;width:229px;max-width:none;flex:no
   .header nav#nav .nav-lang svg{width:18px;height:18px}
   .header nav#nav .nav-lang:hover,.header nav#nav .nav-lang:focus-visible{background:rgba(187,23,54,.09);color:var(--red)}
 }
-@media(max-width:378px){.header .langbtn{display:none}}   /* narrower than this the pill would touch the logo; the menu has the switch */
 
 /* language switch must not change any sizes: elements take the width of the longer language, text centred */
 @media(min-width:1025px){
@@ -678,3 +671,148 @@ html.biglogo .logo{display:block;height:197px;width:229px;max-width:none;flex:no
 .svc li:before{content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;background:var(--red)}
 @media(max-width:1100px){.svc-grid{grid-template-columns:1fr 1fr;gap:20px}}
 @media(max-width:800px){.svc-grid{grid-template-columns:1fr;gap:14px}}
+
+/* ===== Design review round: desktop and mobile audit (applied) ===== */
+/* d-wide-container — Cap content width on big screens */
+@media(min-width:1560px){
+html.drl .header,html.drl .overview,html.drl footer,html.drl .guide,html.drl .pad,html.drl .hero{padding-left:max(72px,calc((100% - 1416px)/2));padding-right:max(72px,calc((100% - 1416px)/2))}
+html.drl .caption{right:max(72px,calc((100% - 1416px)/2))}
+html.drl .story-body{padding-right:max(72px,calc((100% - 1416px)/2))}
+html.drl .mapcard{right:max(72px,calc((100% - 1416px)/2))}
+}
+@media(min-width:1700px){
+html.drl .hero{min-height:720px}
+html.drl h1{font-size:104px}
+html.drl .hero-msg{width:min(900px,100%);padding:128px 0 128px;gap:30px}
+html.drl .lead{font-size:21px;max-width:640px}
+}
+
+/* d-header-fit — Header that fits at 1025-1440px */
+@media(min-width:1025px){
+html.drl .header{gap:14px}
+html.drl .header .btn,html.drl .header .langbtn{white-space:nowrap;flex:none}
+html.drl #nav{flex:none}
+}
+@media(min-width:1025px) and (max-width:1560px){
+html.drl .header{padding-left:48px;padding-right:48px}
+html.drl .header .rvcall{display:inline-flex;font-size:0;gap:0;padding:0;width:48px;justify-content:center}
+}
+@media(min-width:1025px) and (max-width:1366px){html.biglogo .logo{height:155px;width:180px}}
+@media(min-width:1025px) and (max-width:1280px){
+html.drl .header{padding-left:32px;padding-right:32px}
+html.biglogo .logo{height:130px;width:151px}
+html.drl nav#nav{gap:16px;font-size:14px}
+html.drl .header .rvcall{display:none}
+html.drl .header .btn{font-size:13px;padding:0 16px;gap:8px}
+html.drl .header .btn .ar{display:none}
+}
+@media(min-width:1025px) and (max-width:1180px){html.drl .header .langbtn{min-width:0;padding:0 12px}html.drl .header .langbtn svg,html.drl .header .langbtn .lf{display:none}html.drl .header .langbtn .sh{display:inline}}
+
+/* d-clipped-sections — Stop Color & finish and Cabinet story clipping */
+@media(min-width:1101px) and (max-width:1279px){
+html.drl .guide{gap:48px}
+html.drl .guide-text{width:auto;flex:0 1 42%;min-width:0}
+html.drl .mood{min-width:0}
+html.drl .study img{width:36%}
+html.drl .cards div{min-width:0;padding:10px 6px;font-size:11px!important;letter-spacing:.02em!important}
+html.drl .story img{width:42%;flex:none}
+html.drl .story-body{min-width:0;padding:48px 40px}
+html.drl .finish{gap:20px}
+}
+
+/* d-form-call-card — Phone option and sticky intro beside the form */
+html.drl .d-callcard{display:inline-flex;align-items:center;gap:12px;align-self:flex-start;min-height:56px;padding:0 22px;border:2px solid var(--red);border-radius:3px;color:var(--red);font-weight:700;font-size:18px;letter-spacing:.02em;text-decoration:none;transition:background .15s,color .15s}
+html.drl .d-callcard svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+html.drl .d-callcard:hover,html.drl .d-callcard:focus-visible{background:var(--red);color:#fff}
+@media(min-width:1101px){html.drl .request .invite{position:sticky;top:120px;align-self:flex-start}}
+
+/* m2-form-autofill — Form: autofill, right keyboards, visible errors */
+html.drl #consultation form input:not([type=checkbox]),html.drl #consultation form select,html.drl #consultation form textarea{height:52px;padding:0 12px;border:1.5px solid #767672;border-radius:4px;background:#fff}
+html.drl #consultation form textarea{height:112px;padding:12px}
+html.drl #consultation form input:user-invalid,html.drl #consultation form select:user-invalid,html.drl #consultation form textarea:user-invalid{border-color:#bb1736;background:#fdf3f5;box-shadow:0 0 0 1px #bb1736}
+html.drl #consultation form input:focus,html.drl #consultation form select:focus,html.drl #consultation form textarea:focus{border-color:#bb1736;box-shadow:0 0 0 3px rgba(187,23,54,.22);background:#fff}
+@media(max-width:1024px){
+html.drl #consultation form label.consent{align-items:flex-start;gap:12px;min-height:48px;padding:8px 0}
+html.drl #consultation form .consent input{width:24px!important;height:24px!important;margin:0}
+html.drl #consultation form .submit .btn{width:100%;min-height:56px;justify-content:center}
+}
+
+/* m2-swipe-gallery — Project photos as a swipe carousel */
+@media(max-width:800px){
+#projects .gallery.trio{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;margin-left:-20px;margin-right:-20px;padding:0 20px 8px;scroll-padding:0 20px;scrollbar-width:none}
+#projects .gallery.trio::-webkit-scrollbar{display:none}
+#projects .gallery.trio figure{flex:0 0 82%;scroll-snap-align:start;min-width:0}
+#projects .gallery.trio figure img,#projects .gallery.trio figure:last-child img{height:240px;width:100%;object-fit:cover}
+}
+
+/* d-sticky-compact-header — Keep a slim header while scrolling.
+   Done with transforms only (no height change), so nothing below the header moves and growing back at the top is smooth. */
+@media(min-width:1025px){
+html.drl .header.rv-hide{transform:none!important}
+html.drl .header{transition:transform .35s cubic-bezier(.4,0,.2,1),box-shadow .25s;will-change:transform}
+html.drl .header>*{transition:transform .35s cubic-bezier(.4,0,.2,1)}
+html.drl .header.scrolled{transform:translateY(-36px)!important}
+html.drl .header.scrolled>*{transform:translateY(18px)}
+html.drl .header.scrolled>a:first-child{transform:translateY(18px) scale(.72);transform-origin:left center}
+}
+
+/* d-services-grid — Align the What we do cards in rows */
+@media(min-width:801px){
+html.drl #services .services{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,auto);grid-auto-flow:column;column-gap:64px;row-gap:0}
+html.drl #services .services>div{display:contents}
+html.drl #services article{height:100%}
+}
+
+/* d-field-contrast — Visible form field underlines */
+html.drl form input:not([type=checkbox]),html.drl form select,html.drl form textarea{border-bottom-width:2px}
+html.drl form input:not([type=checkbox]):not(:focus):not(:user-invalid),html.drl form select:not(:focus):not(:user-invalid),html.drl form textarea:not(:focus):not(:user-invalid){border-bottom-color:#5d6773}
+html.drl form input:not([type=checkbox]):not(:focus):not(:user-invalid):hover,html.drl form select:not(:focus):not(:user-invalid):hover,html.drl form textarea:not(:focus):not(:user-invalid):hover{border-bottom-color:#17202b}
+
+/* d-overview-fit — Tidy the services bar on small laptops */
+@media(min-width:801px) and (max-width:1180px){
+html.drl .overview{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 12px;padding:16px 32px 18px}
+html.drl .overview small{grid-column:1/-1;text-align:center;min-width:0}
+html.drl .overview span,html.drl .overview span:nth-of-type(n){min-width:0;white-space:nowrap}
+}
+
+/* d-no-fake-links — Project names no longer look like links */
+html.drl figcaption b{text-decoration:none}
+
+/* d-step-numbers — Readable process step numbers */
+html.drl .steps em{color:#6b7785}
+
+/* d-skip-link — Skip to content link for keyboard users */
+html.drl .d-skip{position:fixed;left:16px;top:-80px;z-index:100;padding:14px 22px;background:#fff;color:#17202b;font-weight:700;font-size:15px;border:2px solid #921a12;border-radius:3px;transition:top .15s}
+html.drl .d-skip:focus{top:16px}
+
+/* m2-touch-targets — 44px minimum touch targets */
+@media(max-width:1024px){
+.header .langbtn{height:44px;width:44px;right:60px}
+.foot nav a{min-width:44px;justify-content:center}
+.faq summary{min-height:56px;align-items:center}
+}
+
+/* m2-tap-feedback — Pressed-state feedback on tap */
+@media(hover:none){
+a,button,summary{-webkit-tap-highlight-color:transparent}
+.btn:active,.m2-bar a:active,.nav-cta:active{transform:scale(.97);filter:brightness(.88)}
+.phone-link:active,.serve-grid li:active,summary:active{opacity:.7}
+.btn,.m2-bar a{transition:transform .08s,filter .08s}
+}
+
+/* m2-tight-rhythm — Tighter, consistent section rhythm */
+@media(max-width:600px){
+.pad,.guide,.suppliers{padding-top:36px!important;padding-bottom:36px!important}
+}
+
+/* m2-line-length-tablet — Cap paragraph measure on tablets */
+@media(min-width:601px) and (max-width:1024px){
+.body,.lead,article p,details p,.finish p,.steps p{max-width:62ch}
+}
+
+
+/* phones and tablets (hamburger header): no call button in the header (the hero has one); the language button takes its place on the left */
+@media(max-width:1024px){
+  .header .call{display:none!important}
+  .header .langbtn{display:inline-flex!important;left:14px;right:auto;width:44px;height:44px}
+}

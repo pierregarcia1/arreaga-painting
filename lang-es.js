@@ -103,7 +103,7 @@
 
     /* suppliers */
     "Trusted suppliers": "Proveedores de confianza",
-    "Quality materials from names you know.": "Materiales de calidad de marcas conocidas.",
+    "Quality paint from names you know.": "Pintura de calidad de marcas conocidas.",
     "Sherwin-Williams": "Sherwin-Williams",
     "Spectrum Paint": "Spectrum Paint",
     "HIS Paint": "HIS Paint",

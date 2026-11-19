@@ -113,7 +113,6 @@ All implemented with `transform` and `opacity` only. Reveals are driven by scrip
 
 - Headline line reveals (each line rises from behind a mask)
 - Photo wipe-in with a slow zoom settle
-- Hero "fresh coat" wall wipe (a flat wall colour rolled away by a red edge, plays once)
 - Staggered card and list entrances
 - Button fill sweep, card hover, subtle parallax on the hero and About photos only
 - Before/after slider on the cabinet story (the "before" is a washed-out copy of the same photo; swap in a real before photo when available)
